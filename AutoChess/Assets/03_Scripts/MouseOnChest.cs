@@ -25,25 +25,29 @@ public class MouseOnChest : MonoBehaviour
         _shop = GameObject.Find("Shop");
         GetChests();
     }
-    private void FixedUpdate()
+    #endregion
+    #region Collider_compute
+    private void OnMouseOver()
     {
-        if (_isMouseOnChest && Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Open Shop 1!!");
-            _shop.transform.Find("ShopObj").gameObject.SetActive(true);
-        }// if: 상자를 클릭했다면 상점을 연다.
-
         // 레이캐스트로 마우스가 오브젝트를 가리키는지 검사한다.
         _mouseRay = _mainCam.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(_mouseRay, out _mouseHit);
         if (IsMouseOnChest(_mouseHit))
         {
             OnOutlines();
+            _isMouseOnChest = true;
         }// if: 마우스가 상자를 가리키고 있으면 outline을 렌더한다.
-        else
+
+        if (_isMouseOnChest && Input.GetMouseButtonDown(0))
         {
-            OffOutlines();
-        }
+            _shop.transform.Find("ShopObj").gameObject.SetActive(true);
+        }// if: 상자를 클릭했다면 상점을 연다.
+    }
+    private void OnMouseExit()
+    {
+        // 마우스가 콜라이더를 벗어나면 아웃라인을 끈다
+        OffOutlines();
+        _isMouseOnChest = false;
     }
     #endregion
 
@@ -61,6 +65,7 @@ public class MouseOnChest : MonoBehaviour
             }
         }
     }
+
     #region Outline On/Off
     void OnOutlines()
     {
@@ -90,16 +95,11 @@ public class MouseOnChest : MonoBehaviour
         if (target == null) { }
         else
         {
-            foreach (GameObject chest in _chests)
+            if (transform.position == target.transform.position)
             {
-                if (chest.transform.position == target.transform.position)
-                {
-                    _isMouseOnChest = true;
-                    return true;
-                }
+                return true;
             }
         }
-        _isMouseOnChest = false;
         return false;
     }
 }

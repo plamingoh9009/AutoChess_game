@@ -62,12 +62,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\03_Scripts\ChampionPool.cs" />
     <Compile Include="Assets\03_Scripts\CloseHandler.cs" />
     <Compile Include="Assets\03_Scripts\ExtraScripts\Outline.cs" />
     <Compile Include="Assets\03_Scripts\GameManager.cs" />
     <Compile Include="Assets\03_Scripts\LockHandler.cs" />
     <Compile Include="Assets\03_Scripts\ManagerClass.cs" />
     <Compile Include="Assets\03_Scripts\MouseOnChest.cs" />
+    <Compile Include="Assets\03_Scripts\RollChampions.cs" />
     <Compile Include="Assets\03_Scripts\TimerHandler.cs" />
     <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\CreateGrid.cs" />
     <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\MaterialManager.cs" />
@@ -282,16 +284,16 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Assets/05_ExtraPackages/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Assets/05_ExtraPackages/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -639,55 +641,55 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>E:/Csharp_works/Cs_Project/AutoChess/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
