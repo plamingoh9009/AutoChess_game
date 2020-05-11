@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UiAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: d9ede0ea68fe06445b4e0adf07911b7f, type: 3}
+    - {fileID: 2800000, guid: e0555523b6639014e85cf710461670d1, type: 3}
+    - {fileID: 2800000, guid: 041b35f312f35dd479d07764ff1e7914, type: 3}
+    - {fileID: 2800000, guid: 6c1ff904697e26b4b9f2f0142237b931, type: 3}
+    - {fileID: 2800000, guid: 5a508803d8a9b7b4f9a9dcc40f900388, type: 3}
+    - {fileID: 2800000, guid: 8184934e44702e8429f2851b45b693c9, type: 3}
+    - {fileID: 2800000, guid: b7b4cf65a7ce37b459fa8e7bc76c94e3, type: 3}
+    - {fileID: 2800000, guid: ca21448965920eb4fbf679c46b152e4e, type: 3}
+    - {fileID: 2800000, guid: 2ccfeac0a61f65940ac1aa83eef156ef, type: 3}
+    - {fileID: 2800000, guid: 2935f6269b94d0b4c8e6d4ea02b9682f, type: 3}
+    - {fileID: 2800000, guid: 05ac82a0b0dcbb443b56fd0297f29bce, type: 3}
+    - {fileID: 2800000, guid: e9a263d4e30b7624498b58f5653aec10, type: 3}
+    - {fileID: 2800000, guid: 72718c5ce54d63c429b3039616956e6c, type: 3}
+    - {fileID: 2800000, guid: 8443aefdf90b6124b973fbc16c2495c0, type: 3}
+    - {fileID: 2800000, guid: bc75da8733929a74db382da1e2687cc6, type: 3}
+    - {fileID: 2800000, guid: 2626197330c28f742b90ededcacac023, type: 3}
+    - {fileID: 2800000, guid: b8c2747661d0b544996751772cf5bc1c, type: 3}
+    - {fileID: 2800000, guid: d259c9da467768e4493e2d4758fbb2b0, type: 3}
+    - {fileID: 2800000, guid: 6649ac9139147e541810a9863e49cdd5, type: 3}
+    totalSpriteSurfaceArea: 2548908
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 05ac82a0b0dcbb443b56fd0297f29bce, type: 3}
+  - {fileID: 21300000, guid: 2ccfeac0a61f65940ac1aa83eef156ef, type: 3}
+  - {fileID: 21300000, guid: 6649ac9139147e541810a9863e49cdd5, type: 3}
+  - {fileID: 21300000, guid: 5a508803d8a9b7b4f9a9dcc40f900388, type: 3}
+  - {fileID: 21300000, guid: e0555523b6639014e85cf710461670d1, type: 3}
+  - {fileID: 21300000, guid: 2626197330c28f742b90ededcacac023, type: 3}
+  - {fileID: 21300000, guid: 041b35f312f35dd479d07764ff1e7914, type: 3}
+  - {fileID: 21300000, guid: 6c1ff904697e26b4b9f2f0142237b931, type: 3}
+  - {fileID: 21300000, guid: e9a263d4e30b7624498b58f5653aec10, type: 3}
+  - {fileID: 21300000, guid: b7b4cf65a7ce37b459fa8e7bc76c94e3, type: 3}
+  - {fileID: 21300000, guid: 2935f6269b94d0b4c8e6d4ea02b9682f, type: 3}
+  - {fileID: 21300000, guid: b8c2747661d0b544996751772cf5bc1c, type: 3}
+  - {fileID: 21300000, guid: bc75da8733929a74db382da1e2687cc6, type: 3}
+  - {fileID: 21300000, guid: ca21448965920eb4fbf679c46b152e4e, type: 3}
+  - {fileID: 21300000, guid: d259c9da467768e4493e2d4758fbb2b0, type: 3}
+  - {fileID: 21300000, guid: d9ede0ea68fe06445b4e0adf07911b7f, type: 3}
+  - {fileID: 21300000, guid: 72718c5ce54d63c429b3039616956e6c, type: 3}
+  - {fileID: 21300000, guid: 8443aefdf90b6124b973fbc16c2495c0, type: 3}
+  - {fileID: 21300000, guid: 8184934e44702e8429f2851b45b693c9, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - unit icon 64
+  - knight icon
+  - PauseImg
+  - fire icon 1
+  - lockOpen_icon
+  - BlueButton
+  - archer icon
+  - coin 64
+  - wizzard icon 64
+  - heal icon
+  - nature icon 1
+  - BlueBtn_square
+  - ChessBoard
+  - healthbar
+  - LightBlue_circle
+  - lock_icon
+  - FrameTimer
+  - BlueCircle
+  - frost icon 1
+  m_Tag: UiAtlas
+  m_IsVariant: 0
