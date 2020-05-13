@@ -7,7 +7,7 @@ public class RollChampions : MonoBehaviour
     #region Variable
     ChampionPool _pool;
     List<int> _rollChampions;
-    List<ChampionPool.ChampInstance> _currentRoll;
+    List<ChampionPool.ChampInstance> currentRoll;
     List<ChampionPool.ChampInstance> _nextRoll;
     public bool isLocked { get; set; }
     #endregion
@@ -15,7 +15,7 @@ public class RollChampions : MonoBehaviour
     private void Awake()
     {
         _rollChampions = new List<int>();
-        _currentRoll = new List<ChampionPool.ChampInstance>();
+        currentRoll = new List<ChampionPool.ChampInstance>();
         _nextRoll = new List<ChampionPool.ChampInstance>();
         isLocked = false;
     }
@@ -24,24 +24,25 @@ public class RollChampions : MonoBehaviour
     {
         _pool = ChampionPool.instance;
         Roll();
+        SetupShopCollider();
     }
     #endregion
 
     #region Roll / Reroll
     void Roll()
     {
-        RollChampToList(_currentRoll);
+        RollChampToList(currentRoll);
         RollChampToList(_nextRoll);
-        SetupChampActive(_currentRoll, true);
+        SetupChampActive(currentRoll, true);
     }
     public void Reroll()
     {
         if (isLocked) { }
         else
         {
-            MyFunc.Swap(ref _currentRoll, ref _nextRoll);
+            MyFunc.Swap(ref currentRoll, ref _nextRoll);
             RollChampToList(_nextRoll);
-            SetupChampActive(_currentRoll, true);
+            SetupChampActive(currentRoll, true);
         }
     }
     #endregion
@@ -99,4 +100,11 @@ public class RollChampions : MonoBehaviour
         }
     }
     #endregion
+    void SetupShopCollider()
+    {
+        ShopCollider shopCollider;
+        shopCollider = transform.parent.Find("ShopCollider").GetComponent<ShopCollider>();
+        shopCollider.PushCurrentRoll(currentRoll);
+        shopCollider.InitColliderPos();
+    }
 }

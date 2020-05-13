@@ -10,13 +10,15 @@ public class RerollBtnHandler : MonoBehaviour
     private void Start()
     {
         _containerHandler = GameObject.Find("Shop/ShopObj/ChampContainer").GetComponent<RollChampions>();
-        //_lockHandler = GameObject.Find("Shop/ShopObj/ChampContainer")
+        _lockHandler = GameObject.Find("Shop/ShopObj/ShopUi/LockButton").GetComponent<LockHandler>();
     }
 
     public void OnClickReroll()
     {
-
-        _containerHandler.isLocked = false;
+        if (_lockHandler.isLocked)
+        {
+            _lockHandler.OnClick();
+        }
         _containerHandler.Reroll();
     }
 }

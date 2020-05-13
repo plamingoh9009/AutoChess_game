@@ -68,41 +68,46 @@
     <Compile Include="Assets\03_Scripts\Handler\CloseHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\LockHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\RerollBtnHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\TileHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\TimerHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Infos\ChampInfo.cs" />
+    <Compile Include="Assets\03_Scripts\Inventory.cs" />
     <Compile Include="Assets\03_Scripts\ManagerClass.cs" />
     <Compile Include="Assets\03_Scripts\MouseOnChest.cs" />
     <Compile Include="Assets\03_Scripts\MyFunc.cs" />
     <Compile Include="Assets\03_Scripts\RollChampions.cs" />
+    <Compile Include="Assets\03_Scripts\ShopCollider.cs" />
+    <Compile Include="Assets\03_Scripts\ShopSlot.cs" />
     <Compile Include="Assets\03_Scripts\TestScript.cs" />
-    <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\CreateGrid.cs" />
-    <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\MaterialManager.cs" />
-    <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\SwitchScenes.cs" />
-    <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\TileManager.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\AIopponent.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\AttackBehaviour.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\Champion.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionAnimation.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionBonus.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionController.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionShop.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionType.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\Effect.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\FloatingText.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\GameData.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\GamePlayController.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\HealthBar.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\InputController.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\Map.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\Projectile.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\TriggerInfo.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\UI\UIController.cs" />
-    <Compile Include="Assets\05_ExtraPackages\asoliddev - Auto Chess\Scripts\WorldCanvasController.cs" />
-    <None Include="Assets\05_ExtraPackages\RoundedSquare\Shaders\roundedSqaure.shader" />
-    <None Include="Assets\05_ExtraPackages\QuickOutline\Resources\Shaders\OutlineMask.shader" />
-    <None Include="Assets\05_ExtraPackages\JsonDotNet\link.xml" />
-    <None Include="Assets\05_ExtraPackages\QuickOutline\Readme.txt" />
-    <None Include="Assets\05_ExtraPackages\QuickOutline\Resources\Shaders\OutlineFill.shader" />
-    <None Include="Assets\05_ExtraPackages\RoundedSquare\Images\Attribution.txt" />
+    <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\CreateGrid.cs" />
+    <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\MaterialManager.cs" />
+    <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\SwitchScenes.cs" />
+    <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\TileManager.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\AIopponent.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\AttackBehaviour.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\Champion.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionAnimation.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionBonus.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionController.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionShop.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\ChampionType.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\Effect.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\FloatingText.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\GameData.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\GamePlayController.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\HealthBar.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\InputController.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\Map.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\Projectile.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\TriggerInfo.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\UI\UIController.cs" />
+    <Compile Include="Assets\06_ExtraPackages\asoliddev - Auto Chess\Scripts\WorldCanvasController.cs" />
+    <None Include="Assets\06_ExtraPackages\RoundedSquare\Shaders\roundedSqaure.shader" />
+    <None Include="Assets\06_ExtraPackages\QuickOutline\Resources\Shaders\OutlineMask.shader" />
+    <None Include="Assets\06_ExtraPackages\JsonDotNet\link.xml" />
+    <None Include="Assets\06_ExtraPackages\QuickOutline\Readme.txt" />
+    <None Include="Assets\06_ExtraPackages\QuickOutline\Resources\Shaders\OutlineFill.shader" />
+    <None Include="Assets\06_ExtraPackages\RoundedSquare\Images\Attribution.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -287,7 +292,7 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Assets/05_ExtraPackages/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+      <HintPath>E:/Subversion/AutoChess_game/AutoChess/Assets/06_ExtraPackages/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>E:/Subversion/AutoChess_game/AutoChess/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
