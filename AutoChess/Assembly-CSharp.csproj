@@ -63,14 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\03_Scripts\ChampionPool.cs" />
-    <Compile Include="Assets\03_Scripts\CloseHandler.cs" />
     <Compile Include="Assets\03_Scripts\ExtraScripts\Outline.cs" />
     <Compile Include="Assets\03_Scripts\GameManager.cs" />
-    <Compile Include="Assets\03_Scripts\LockHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\CloseHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\LockHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\RerollBtnHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\TimerHandler.cs" />
     <Compile Include="Assets\03_Scripts\ManagerClass.cs" />
     <Compile Include="Assets\03_Scripts\MouseOnChest.cs" />
+    <Compile Include="Assets\03_Scripts\MyFunc.cs" />
     <Compile Include="Assets\03_Scripts\RollChampions.cs" />
-    <Compile Include="Assets\03_Scripts\TimerHandler.cs" />
+    <Compile Include="Assets\03_Scripts\TestScript.cs" />
     <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\CreateGrid.cs" />
     <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\MaterialManager.cs" />
     <Compile Include="Assets\05_ExtraPackages\RoundedSquare\Scripts\SwitchScenes.cs" />
