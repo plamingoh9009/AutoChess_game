@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\03_Scripts\ChampionPool.cs" />
+    <Compile Include="Assets\03_Scripts\Collider\ShopCollider.cs" />
+    <Compile Include="Assets\03_Scripts\Collider\ShopSlot.cs" />
+    <Compile Include="Assets\03_Scripts\Collider\TileFinder.cs" />
     <Compile Include="Assets\03_Scripts\ExtraScripts\Outline.cs" />
     <Compile Include="Assets\03_Scripts\GameManager.cs" />
     <Compile Include="Assets\03_Scripts\Handler\CloseHandler.cs" />
@@ -70,14 +73,12 @@
     <Compile Include="Assets\03_Scripts\Handler\RerollBtnHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\TileHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\TimerHandler.cs" />
-    <Compile Include="Assets\03_Scripts\Infos\ChampInfo.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\UnitHandler.cs" />
     <Compile Include="Assets\03_Scripts\Inventory.cs" />
     <Compile Include="Assets\03_Scripts\ManagerClass.cs" />
     <Compile Include="Assets\03_Scripts\MouseOnChest.cs" />
     <Compile Include="Assets\03_Scripts\MyFunc.cs" />
     <Compile Include="Assets\03_Scripts\RollChampions.cs" />
-    <Compile Include="Assets\03_Scripts\ShopCollider.cs" />
-    <Compile Include="Assets\03_Scripts\ShopSlot.cs" />
     <Compile Include="Assets\03_Scripts\TestScript.cs" />
     <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\CreateGrid.cs" />
     <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\MaterialManager.cs" />

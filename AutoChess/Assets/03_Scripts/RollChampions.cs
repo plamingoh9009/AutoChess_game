@@ -6,6 +6,7 @@ public class RollChampions : MonoBehaviour
 {
     #region Variable
     ChampionPool _pool;
+    ShopCollider shopCollider;
     List<int> _rollChampions;
     List<ChampionPool.ChampInstance> currentRoll;
     List<ChampionPool.ChampInstance> _nextRoll;
@@ -23,8 +24,14 @@ public class RollChampions : MonoBehaviour
     private void Start()
     {
         _pool = ChampionPool.instance;
+        shopCollider = MyFunc.GetObject(MyFunc.ObjType.SHOP_COLLIDER).GetComponent<ShopCollider>();
         Roll();
         SetupShopCollider();
+    }
+    void SetupShopCollider()
+    {
+        shopCollider.PushCurrentRoll(currentRoll);
+        shopCollider.InitColliderPos();
     }
     #endregion
 
@@ -43,6 +50,8 @@ public class RollChampions : MonoBehaviour
             MyFunc.Swap(ref currentRoll, ref _nextRoll);
             RollChampToList(_nextRoll);
             SetupChampActive(currentRoll, true);
+            // 리롤할 때 shopCollider를 다시 active로 전환한다.
+            shopCollider.ActiveAllColliders();
         }
     }
     #endregion
@@ -100,11 +109,16 @@ public class RollChampions : MonoBehaviour
         }
     }
     #endregion
-    void SetupShopCollider()
+
+    public string ReleaseChamp(int idx)
     {
-        ShopCollider shopCollider;
-        shopCollider = transform.parent.Find("ShopCollider").GetComponent<ShopCollider>();
-        shopCollider.PushCurrentRoll(currentRoll);
-        shopCollider.InitColliderPos();
+        string champName;
+        ChampionPool.ChampInstance champ;
+        champ = currentRoll[idx];
+        champName = champ.name;
+        // 리스트에서 빼지 않고, 보이지 않도록 false 처리한다.
+        // Reroll 할 때 풀로 반환하기 때문
+        champ.champion.SetActive(false);
+        return champName;
     }
 }

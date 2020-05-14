@@ -1899,6 +1899,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1295967143}
     m_Modifications:
+    - target: {fileID: 300961183, guid: e097dc1b761606040a141ca558e64088, type: 3}
+      propertyPath: outlineColor.r
+      value: 0.15566039
+      objectReference: {fileID: 0}
+    - target: {fileID: 300961183, guid: e097dc1b761606040a141ca558e64088, type: 3}
+      propertyPath: outlineColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 300961183, guid: e097dc1b761606040a141ca558e64088, type: 3}
+      propertyPath: outlineColor.b
+      value: 0.1764706
+      objectReference: {fileID: 0}
     - target: {fileID: 1000014099110386, guid: e097dc1b761606040a141ca558e64088, type: 3}
       propertyPath: m_Name
       value: ChestOpen
@@ -5574,6 +5586,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1295967143}
     m_Modifications:
+    - target: {fileID: 1474302988, guid: ffd3e66d4df2a554fb995d41f7ffe4c2, type: 3}
+      propertyPath: outlineColor.r
+      value: 0.15686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474302988, guid: ffd3e66d4df2a554fb995d41f7ffe4c2, type: 3}
+      propertyPath: outlineColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474302988, guid: ffd3e66d4df2a554fb995d41f7ffe4c2, type: 3}
+      propertyPath: outlineColor.b
+      value: 0.1764706
+      objectReference: {fileID: 0}
     - target: {fileID: 1000011713842796, guid: ffd3e66d4df2a554fb995d41f7ffe4c2, type: 3}
       propertyPath: m_Name
       value: ChestClose

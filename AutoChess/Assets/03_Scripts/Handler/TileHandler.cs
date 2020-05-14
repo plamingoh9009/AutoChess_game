@@ -12,15 +12,21 @@ public class TileHandler : MonoBehaviour
     }
     GameObject _squareTileContainer;
     GameObject _hexaTileContainer;
-    public List<GameObject> _squareInstances { get; private set; }
-    public List<GameObject> _hexaInstances { get; private set; }
+    public List<TileInfo> _squareInstances { get; private set; }
+    public List<TileInfo> _hexaInstances { get; private set; }
+    public class TileInfo
+    {
+        public GameObject tile;
+        public int idx;
+        public TileType type;
+    }
 
     private void Awake()
     {
         _squareTileContainer = GameObject.Find("Tiles/SquareTiles");
         _hexaTileContainer = GameObject.Find("Tiles/HexaTiles");
-        _squareInstances = new List<GameObject>();
-        _hexaInstances = new List<GameObject>();
+        _squareInstances = new List<TileInfo>();
+        _hexaInstances = new List<TileInfo>();
 
         SetupSquareTiles();
         SetupHexagonTiles();
@@ -48,7 +54,7 @@ public class TileHandler : MonoBehaviour
         string objName = "";
         GameObject prefab = default;
         GameObject parrent = default;
-        List<GameObject> instanceList = default;
+        List<TileInfo> instanceList = default;
 
         switch (type)
         {
@@ -67,13 +73,14 @@ public class TileHandler : MonoBehaviour
         }
         prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path + objName);
 
-        GameObject tile;
         float rowPos, colPos;
         for (int i = 0; i < cols; i++)
         {
             for (int k = 0; k < rows; k++)
             {
-                tile = Instantiate(prefab, parrent.transform.position, Quaternion.identity, parrent.transform);
+                TileInfo tileInfo = new TileInfo();
+                tileInfo.tile = Instantiate(prefab,
+                    parrent.transform.position, Quaternion.identity, parrent.transform);
                 switch (type)
                 {
                     case TileType.HEXAGON:
@@ -83,18 +90,33 @@ public class TileHandler : MonoBehaviour
                         {
                             rowPos -= distance * 0.5f;
                         }
-                        tile.transform.Translate(new Vector3(rowPos, 0, colPos));
+                        tileInfo.tile.transform.Translate(new Vector3(rowPos, 0, colPos));
+                        tileInfo.type = TileType.HEXAGON;
+                        tileInfo.idx = i * rows + k;
                         break;
                     default:
                         rowPos = distance * k;
                         colPos = distance * i;
-                        tile.transform.Translate(new Vector3(rowPos, 0, colPos));
+                        tileInfo.tile.transform.Translate(new Vector3(rowPos, 0, colPos));
+                        tileInfo.type = TileType.SQUARE;
+                        tileInfo.idx = i * rows + k;
                         break;
                 }
-                tile.SetActive(false);
-                instanceList.Add(tile);
+                tileInfo.tile.SetActive(false);
+                instanceList.Add(tileInfo);
             }
         }// loop: 행, 열 매개변수를 참고해서 타일을 만든다.
+    }
+    public TileInfo FindTile(List<TileInfo> tileList, Vector3 position)
+    {
+        foreach(var ele in tileList)
+        {
+            if(ele.tile.transform.position == position)
+            {
+                return ele;
+            }
+        }
+        return default;
     }
     #region Tile on / off
     public void TileOn()

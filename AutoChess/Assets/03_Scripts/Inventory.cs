@@ -6,8 +6,8 @@ public class Inventory : MonoBehaviour
 {
     List<ChampionPool.ChampInstance> _inven;
     TileHandler _tileHandler;
-    List<GameObject> _squareTiles;
-    List<GameObject> _HexaTiles;
+    List<TileHandler.TileInfo> _squareTiles;
+    List<TileHandler.TileInfo> _HexaTiles;
     int maxSize;
     private void Awake()
     {
@@ -39,11 +39,22 @@ public class Inventory : MonoBehaviour
     {
         int count = _inven.Count;
         GameObject champ;
-        for(int i=0; i<count; i++)
+        for (int i = 0; i < count; i++)
         {
             champ = _inven[i].champion;
-            champ.transform.position = _squareTiles[i].transform.position;
+            champ.transform.position = _squareTiles[i].tile.transform.position;
             champ.SetActive(true);
+        }
+    }
+    public bool IsRemainInven()
+    {
+        if(_inven.Count < maxSize)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
