@@ -7,34 +7,59 @@ public class TileFinder : MonoBehaviour
     TileHandler tileHandler;
     List<TileHandler.TileInfo> invenTiles;
     List<TileHandler.TileInfo> fieldTiles;
-    TileHandler.TileInfo targetTile;
+    public TileHandler.TileInfo detectedTile;
+    public bool isEmptyTile;
 
     private void Awake()
     {
         tileHandler = MyFunc.GetObject(MyFunc.ObjType.TILE_CONTAINER).GetComponent<TileHandler>();
-        targetTile = new TileHandler.TileInfo();
+        detectedTile = new TileHandler.TileInfo();
+        isEmptyTile = true;
     }
     private void Start()
     {
-        invenTiles = tileHandler._squareInstances;
-        fieldTiles = tileHandler._hexaInstances;
+        invenTiles = tileHandler.squareInstances;
+        fieldTiles = tileHandler.hexaInstances;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("InvenTile"))
-        {
-            targetTile = tileHandler.FindTile(invenTiles, other.transform.position);
-        }
-        else if(other.gameObject.layer == LayerMask.NameToLayer("FieldTile"))
-        {
-            targetTile = tileHandler.FindTile(fieldTiles, other.transform.position);
-        }
-        Debug.Log("Type: " + targetTile.type);
-        Debug.Log("Idx: " + targetTile.idx);
+        DetectTile(other);
+        DetectUnit(other);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        DetectTile(other);
+        DetectUnit(other);
     }
     private void OnTriggerExit(Collider other)
     {
-        targetTile = default;
+        detectedTile = default;
+    }
+    void DetectTile(Collider other)
+    {
+        switch (LayerMask.LayerToName(other.gameObject.layer))
+        {
+            case "InvenTile":
+                detectedTile = tileHandler.FindTile(invenTiles, other.transform.parent.position);
+                break;
+            case "FieldTile":
+                detectedTile = tileHandler.FindTile(fieldTiles, other.transform.parent.position);
+                break;
+            default:
+                detectedTile = default;
+                break;
+        }
+    }
+    void DetectUnit(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Unit"))
+        {
+            isEmptyTile = false;
+        }
+        else
+        {
+            isEmptyTile = true;
+        }
     }
 }

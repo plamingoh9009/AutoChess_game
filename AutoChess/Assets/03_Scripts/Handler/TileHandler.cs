@@ -5,28 +5,34 @@ using UnityEditor;
 
 public class TileHandler : MonoBehaviour
 {
+    #region Var
     public enum TileType
     {
+        EMPTY,
         SQUARE,
         HEXAGON
     }
     GameObject _squareTileContainer;
     GameObject _hexaTileContainer;
-    public List<TileInfo> _squareInstances { get; private set; }
-    public List<TileInfo> _hexaInstances { get; private set; }
+    GameObject tileExplorerObj;
+    TileFinder tileExplorer;
+    public List<TileInfo> squareInstances { get; private set; }
+    public List<TileInfo> hexaInstances { get; private set; }
     public class TileInfo
     {
         public GameObject tile;
         public int idx;
         public TileType type;
     }
-
+    #endregion
     private void Awake()
     {
         _squareTileContainer = GameObject.Find("Tiles/SquareTiles");
         _hexaTileContainer = GameObject.Find("Tiles/HexaTiles");
-        _squareInstances = new List<TileInfo>();
-        _hexaInstances = new List<TileInfo>();
+        tileExplorerObj = GameObject.Find("Tiles/TileFinder");
+        tileExplorer = tileExplorerObj.GetComponent<TileFinder>();
+        squareInstances = new List<TileInfo>();
+        hexaInstances = new List<TileInfo>();
 
         SetupSquareTiles();
         SetupHexagonTiles();
@@ -61,12 +67,12 @@ public class TileHandler : MonoBehaviour
             case TileType.SQUARE:
                 objName = "indicator square.prefab";
                 parrent = _squareTileContainer;
-                instanceList = _squareInstances;
+                instanceList = squareInstances;
                 break;
             case TileType.HEXAGON:
                 objName = "indicator hexa.prefab";
                 parrent = _hexaTileContainer;
-                instanceList = _hexaInstances;
+                instanceList = hexaInstances;
                 break;
             default:
                 break;
@@ -118,16 +124,29 @@ public class TileHandler : MonoBehaviour
         }
         return default;
     }
+    public TileInfo GetEmptyTile(List<TileInfo> tileList)
+    {
+        tileExplorerObj.SetActive(true);
+        foreach(var ele in tileList)
+        {
+            tileExplorerObj.transform.position = ele.tile.transform.position;
+            if(tileExplorer.isEmptyTile)
+            {
+                Debug.Log("Empty tile !!");
+            }
+        }
+        return default;
+    }
     #region Tile on / off
     public void TileOn()
     {
-        MyFunc.SetActiveAll(_squareInstances);
-        MyFunc.SetActiveAll(_hexaInstances);
+        MyFunc.SetActiveAll(squareInstances);
+        MyFunc.SetActiveAll(hexaInstances);
     }
     public void TileOff()
     {
-        MyFunc.SetActiveAll(_squareInstances, false);
-        MyFunc.SetActiveAll(_hexaInstances, false);
+        MyFunc.SetActiveAll(squareInstances, false);
+        MyFunc.SetActiveAll(hexaInstances, false);
     }
     #endregion
 }
