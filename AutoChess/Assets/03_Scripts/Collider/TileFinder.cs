@@ -8,13 +8,11 @@ public class TileFinder : MonoBehaviour
     List<TileHandler.TileInfo> invenTiles;
     List<TileHandler.TileInfo> fieldTiles;
     public TileHandler.TileInfo detectedTile;
-    public bool isEmptyTile;
 
     private void Awake()
     {
         tileHandler = MyFunc.GetObject(MyFunc.ObjType.TILE_CONTAINER).GetComponent<TileHandler>();
         detectedTile = new TileHandler.TileInfo();
-        isEmptyTile = true;
     }
     private void Start()
     {
@@ -25,12 +23,10 @@ public class TileFinder : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         DetectTile(other);
-        DetectUnit(other);
     }
     private void OnTriggerStay(Collider other)
     {
         DetectTile(other);
-        DetectUnit(other);
     }
     private void OnTriggerExit(Collider other)
     {
@@ -46,20 +42,6 @@ public class TileFinder : MonoBehaviour
             case "FieldTile":
                 detectedTile = tileHandler.FindTile(fieldTiles, other.transform.parent.position);
                 break;
-            default:
-                detectedTile = default;
-                break;
-        }
-    }
-    void DetectUnit(Collider other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Unit"))
-        {
-            isEmptyTile = false;
-        }
-        else
-        {
-            isEmptyTile = true;
         }
     }
 }

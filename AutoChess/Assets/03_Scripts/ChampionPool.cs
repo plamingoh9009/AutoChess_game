@@ -13,6 +13,7 @@ public class ChampionPool : MonoBehaviour
     {
         public string name;
         public GameObject champion;
+        public TileHandler.TileInfo standingTile;
     }
     public List<string> championNames { get; private set; }
     public Dictionary<string, GameObject> championPrefabs { get; private set; }
