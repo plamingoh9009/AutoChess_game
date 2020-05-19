@@ -23,13 +23,14 @@ public class TileHandler : MonoBehaviour
         public GameObject tile;
         public int idx;
         public TileType type;
+        public bool isEmpty;
     }
     #endregion
     private void Awake()
     {
         _squareTileContainer = GameObject.Find("Tiles/SquareTiles");
         _hexaTileContainer = GameObject.Find("Tiles/HexaTiles");
-        tileExplorerObj = GameObject.Find("Tiles/TileFinder");
+        tileExplorerObj = GameObject.Find("Tiles").transform.Find("TileFinder").gameObject;
         tileExplorer = tileExplorerObj.GetComponent<TileFinder>();
         squareInstances = new List<TileInfo>();
         hexaInstances = new List<TileInfo>();
@@ -108,6 +109,7 @@ public class TileHandler : MonoBehaviour
                         tileInfo.idx = i * rows + k;
                         break;
                 }
+                tileInfo.isEmpty = true;
                 tileInfo.tile.SetActive(false);
                 instanceList.Add(tileInfo);
             }
@@ -115,28 +117,16 @@ public class TileHandler : MonoBehaviour
     }
     public TileInfo FindTile(List<TileInfo> tileList, Vector3 position)
     {
-        foreach(var ele in tileList)
+        foreach (var ele in tileList)
         {
-            if(ele.tile.transform.position == position)
+            if (ele.tile.transform.position == position)
             {
                 return ele;
             }
         }
         return default;
     }
-    public TileInfo GetEmptyTile(List<TileInfo> tileList)
-    {
-        tileExplorerObj.SetActive(true);
-        foreach(var ele in tileList)
-        {
-            tileExplorerObj.transform.position = ele.tile.transform.position;
-            if(tileExplorer.isEmptyTile)
-            {
-                Debug.Log("Empty tile !!");
-            }
-        }
-        return default;
-    }
+
     #region Tile on / off
     public void TileOn()
     {

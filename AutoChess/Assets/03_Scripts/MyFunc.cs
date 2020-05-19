@@ -68,7 +68,14 @@ public static class MyFunc
         }
         return target;
     }
+    #region finished work
     public static void Swap<T>(ref T element1, ref T element2)
+    {
+        T temp = element1;
+        element1 = element2;
+        element2 = temp;
+    }
+    public static void Swap<T>(T element1, T element2)
     {
         T temp = element1;
         element1 = element2;
@@ -88,4 +95,5 @@ public static class MyFunc
             ele.tile.SetActive(isActive);
         }
     }
+    #endregion
 }
