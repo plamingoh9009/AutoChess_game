@@ -16,7 +16,9 @@ public static class MyFunc
         SHOP_COLLIDER,
         FIXED_OBJECT,
         INVENTORY,
-        TILE_CONTAINER
+        TILE_CONTAINER,
+        PLAYER_UI,
+        GOLD
     }
     public static string GetPath(PathType type)
     {
@@ -64,7 +66,14 @@ public static class MyFunc
                 target = GetObject(ObjType.FIXED_OBJECT);
                 target = target.transform.Find("Tiles").gameObject;
                 break;
-                #endregion
+            #endregion
+            case ObjType.PLAYER_UI:
+                target = GameObject.Find("PlayerUi");
+                break;
+            case ObjType.GOLD:
+                target = GetObject(ObjType.PLAYER_UI);
+                target = target.transform.Find("Gold").gameObject;
+                break;
         }
         return target;
     }

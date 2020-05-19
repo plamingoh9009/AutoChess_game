@@ -5,8 +5,8 @@ using UnityEngine;
 public class UnitHandler : MonoBehaviour
 {
     TileHandler tileHandler;            // 타일 처리 클래스
-    GameObject unit;                    // 내 유닛 오브젝트
-    TileHandler.TileInfo standingTile;  // 유닛이 서 있던 타일
+    GameObject unitObj;                 // 내 유닛 오브젝트
+    ChampionPool.ChampInstance unit;    // 내 유닛 인스턴스
     TileHandler.TileInfo landingTile;   // 유닛이 착지할 타일
     Inventory inven;
 
@@ -19,11 +19,10 @@ public class UnitHandler : MonoBehaviour
     float cameraCorrectionZ;
     private void Awake()
     {
-        unit = transform.parent.gameObject;
+        unitObj = transform.parent.gameObject;
         tileHandler = MyFunc.GetObject(MyFunc.ObjType.TILE_CONTAINER).GetComponent<TileHandler>();
-        standingTile = new TileHandler.TileInfo();
         landingTile = new TileHandler.TileInfo();
-        tileFinderObj = unit.transform.Find("TileFinder").gameObject;
+        tileFinderObj = unitObj.transform.Find("TileFinder").gameObject;
         posCorrectionZ = 2.4f;
         posCorrectionX = 1.5f;
         cameraCorrectionX = 0.05f;
@@ -34,12 +33,13 @@ public class UnitHandler : MonoBehaviour
         benchmarkPos = tileHandler.squareInstances[4].tile.transform.position;
         tileFinder = tileFinderObj.GetComponent<TileFinder>();
         inven = MyFunc.GetObject(MyFunc.ObjType.INVENTORY).GetComponent<Inventory>();
+        unit = inven.FindChampFromInstance(unitObj);
     }
     #region Mouse control
     private void OnMouseDown()
     {
+        unit = inven.FindChampFromInstance(unitObj);
         tileFinderObj.SetActive(true);
-        StartCoroutine(SetupStandingTile());
     }
     private void OnMouseDrag()
     {
@@ -59,7 +59,7 @@ public class UnitHandler : MonoBehaviour
     {
         // 마우스 좌표를 스크린 -> 월드 좌표로 바꾼 후 리턴
         Vector3 unitMousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-        unit.transform.position = Camera.main.ScreenToWorldPoint(unitMousePos);
+        unitObj.transform.position = Camera.main.ScreenToWorldPoint(unitMousePos);
 
         if (tileFinder)
         {
@@ -75,74 +75,60 @@ public class UnitHandler : MonoBehaviour
         // 랜딩 위치를 잡아준다.
         SetupLandingTile();
 
-        if (inven.IsEmptyTile(landingTile))
+        if(landingTile != default)
         {
-            LandToTile();
+            if (inven.IsEmptyTile(landingTile))
+            {
+                LandToTile();
+            }
+            else
+            {
+                SwapTwoTiles();
+            }
         }
         else
         {
-            SwapTwoTiles();
+            ReturnRightPos();
         }
-        inven.ShowInven();
-        inven.ShowField();
+        
     }
-    bool LandToTile()
+    void LandToTile()
     {
         Vector3 landingPos;
-        if (landingTile != default && landingTile.isEmpty)
+
+        if(landingTile == unit.standingTile)
+        {
+            ReturnRightPos();
+        }
+        else
         {
             landingPos = landingTile.tile.transform.position;
-            unit.transform.position = landingPos;
-            standingTile.isEmpty = true;
+            unitObj.transform.position = landingPos;
+            unit.standingTile.isEmpty = true;
             landingTile.isEmpty = false;
-            inven.MoveChamp(landingTile, standingTile);
-            return true;
-        }// if: 랜딩 포지션 값이 정상범위라면 그 곳으로 이동한다.
-
-        // 랜딩 포지션 값이 이상하면 원래 서있던 자리로 되돌아간다.
-        landingPos = standingTile.tile.transform.position;
-        unit.transform.position = landingPos;
-        return false;
+            inven.MoveChamp(unitObj, landingTile);
+        }
     }
-    bool SwapTwoTiles()
+    void SwapTwoTiles()
     {
-        Vector3 landingPos;
-
         // 자리를 swap 하기 위해서 무조건 되돌아간다.
-        landingPos = standingTile.tile.transform.position;
-        unit.transform.position = landingPos;
+        ReturnRightPos();
 
-        if (landingTile != default && !landingTile.isEmpty)
-        {
-            standingTile.isEmpty = false;
-            landingTile.isEmpty = false;
-            inven.SwapChamp(landingTile, standingTile);
-            return true;
-        }// if: 랜딩할 곳에 다른 유닛이 있다면 둘의 위치를 바꾼다.
-
-        return false;
+        unit.standingTile.isEmpty = false;
+        landingTile.isEmpty = false;
+        inven.SwapChamp(landingTile, unit.standingTile);
     }
     #endregion
 
-    #region Setup per evety click
-    IEnumerator SetupStandingTile()
-    {
-        // finder가 타일을 클릭 후에 찾기 시작 하기 때문에 1프레임 대기한다.
-        yield return new WaitForSeconds(Time.deltaTime);
-        if (tileFinder.detectedTile != null &&
-            tileFinder.detectedTile.tile != null)
-        {
-            standingTile = tileFinder.detectedTile;
-        }// if: 정상 타일인 경우
-    }
+    #region finished work
     void SetupLandingTile()
     {
         landingTile = tileFinder.detectedTile;
     }
-    #endregion
-    public void InitStandingTile(TileHandler.TileInfo standingTile_)
+    void ReturnRightPos()
     {
-        standingTile = standingTile_;
+        Vector3 landingPos = unit.standingTile.tile.transform.position;
+        unitObj.transform.position = landingPos;
     }
     void ComputeTileFinderPos(Vector3 before)
     {
@@ -162,4 +148,5 @@ public class UnitHandler : MonoBehaviour
             (distanceZ * posCorrectionZ) * (forwardWeight * cameraCorrectionZ);
         tileFinder.transform.position = tilePos;
     }
+    #endregion
 }
