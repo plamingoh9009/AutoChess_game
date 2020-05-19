@@ -22,7 +22,6 @@ public class TileFinder : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        DetectTile(other);
     }
     private void OnTriggerStay(Collider other)
     {
@@ -37,10 +36,10 @@ public class TileFinder : MonoBehaviour
         switch (LayerMask.LayerToName(other.gameObject.layer))
         {
             case "InvenTile":
-                detectedTile = tileHandler.FindTile(invenTiles, other.transform.parent.position);
+                detectedTile = tileHandler.FindTile(invenTiles, other.transform.parent.gameObject);
                 break;
             case "FieldTile":
-                detectedTile = tileHandler.FindTile(fieldTiles, other.transform.parent.position);
+                detectedTile = tileHandler.FindTile(fieldTiles, other.transform.parent.gameObject);
                 break;
         }
     }

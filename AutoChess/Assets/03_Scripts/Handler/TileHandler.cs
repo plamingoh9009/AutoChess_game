@@ -115,11 +115,11 @@ public class TileHandler : MonoBehaviour
             }
         }// loop: 행, 열 매개변수를 참고해서 타일을 만든다.
     }
-    public TileInfo FindTile(List<TileInfo> tileList, Vector3 position)
+    public TileInfo FindTile(List<TileInfo> tileList, GameObject tile)
     {
         foreach (var ele in tileList)
         {
-            if (ele.tile.transform.position == position)
+            if (ele.tile == tile)
             {
                 return ele;
             }

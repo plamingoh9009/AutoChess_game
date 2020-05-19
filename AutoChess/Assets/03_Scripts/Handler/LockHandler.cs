@@ -7,6 +7,8 @@ public class LockHandler : MonoBehaviour
     public bool isLocked { get; private set; }
     string _lockObjName;
     string _unlockObjName;
+    GameObject lockObj;
+    GameObject unlockObj;
     RollChampions _containerHandler;
     #region Start()
     private void Awake()
@@ -14,6 +16,8 @@ public class LockHandler : MonoBehaviour
         isLocked = false;
         _lockObjName = "Lock";
         _unlockObjName = "UnLock";
+        lockObj = transform.Find(_lockObjName).gameObject;
+        unlockObj = transform.Find(_unlockObjName).gameObject;
     }
     private void Start()
     {
@@ -31,15 +35,15 @@ public class LockHandler : MonoBehaviour
     {
         if(isLocked)
         {
-            transform.Find(_lockObjName).gameObject.SetActive(false);
-            transform.Find(_unlockObjName).gameObject.SetActive(true);
+            lockObj.SetActive(false);
+            unlockObj.SetActive(true);
             isLocked = !isLocked;
             _containerHandler.isLocked = false;
         }// if: 잠겨 있다면 풀어준다.
         else
         {
-            transform.Find(_lockObjName).gameObject.SetActive(true);
-            transform.Find(_unlockObjName).gameObject.SetActive(false);
+            lockObj.SetActive(true);
+            unlockObj.SetActive(false);
             isLocked = !isLocked;
             _containerHandler.isLocked = true;
         }
