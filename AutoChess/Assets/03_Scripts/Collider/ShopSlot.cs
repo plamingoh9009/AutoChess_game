@@ -7,27 +7,41 @@ public class ShopSlot : MonoBehaviour
     ShopCollider shopCollider;
     RollChampions shopContainer;
     Inventory inven;
+
     GoldUi gold;
     UnitCount unitCount;
+    MessageBox msg;
 
     private void Awake()
     {
         shopCollider = transform.parent.GetComponent<ShopCollider>();
         shopContainer = MyFunc.GetObject(MyFunc.ObjType.SHOP_CONTAINER).GetComponent<RollChampions>();
         inven = MyFunc.GetObject(MyFunc.ObjType.INVENTORY).GetComponent<Inventory>();
+
         gold = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
         unitCount = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<UnitCount>();
+        msg = MyFunc.GetObject(MyFunc.ObjType.MESSAGE_BOX).GetComponent<MessageBox>();
     }
 
     private void OnMouseDown()
     {
         int champIdx = shopCollider.GetSlotIdx(gameObject);
 
-        // 골드가 충분하다면, 인벤에 자리가 있다면, 유닛 개수가 남는다면
-        if (inven.IsRemainInven() && (gold.gold >= 2) && 
-            (unitCount.currentUnit < unitCount.maxUnit))
+        // 골드가 충분하다면, 인벤에 자리가 있다면
+        if (inven.IsRemainInven())
         {
-            BuyChampion(champIdx);
+            if (gold.gold >= 2)
+            {
+                BuyChampion(champIdx);
+            }
+            else
+            {
+                msg.OnMessageBox(MessageBox.MessageType.NOT_ENOUGH_GOLD);
+            }
+        }
+        else
+        {
+            msg.OnMessageBox(MessageBox.MessageType.NOT_ENOUGH_INVEN);
         }
     }
 

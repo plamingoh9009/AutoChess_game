@@ -67,7 +67,7 @@ public class MouseOnChest : MonoBehaviour
     }
 
     #region Outline On/Off
-    void OnOutlines()
+    public void OnOutlines()
     {
         foreach (GameObject chest in _chests)
         {
@@ -77,7 +77,7 @@ public class MouseOnChest : MonoBehaviour
             }
         }
     }
-    void OffOutlines()
+    public void OffOutlines()
     {
         foreach (GameObject chest in _chests)
         {

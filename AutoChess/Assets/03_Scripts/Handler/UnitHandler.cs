@@ -43,17 +43,27 @@ public class UnitHandler : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        // 드래그 할 때 모든 타일 활성화
-        tileHandler.TileOn();
-        // 마우스 좌표 받아오기
-        FollowMouse();
+        if ((GameManager.instance.myTurn == GameManager.TurnType.FIGHT) &&
+            (unit.standingTile.type == TileHandler.TileType.HEXAGON)) { }
+        else
+        {
+            // 드래그 할 때 모든 타일 활성화
+            tileHandler.TileOn();
+            // 마우스 좌표 받아오기
+            FollowMouse();
+        }// if: Fight 턴에 필드 드래그 불가
     }
     private void OnMouseUp()
     {
-        LandingUnit();
-        // 놔두면 비활성화
-        tileHandler.TileOff();
-        tileFinderObj.SetActive(false);
+        if ((GameManager.instance.myTurn == GameManager.TurnType.FIGHT) &&
+            (unit.standingTile.type == TileHandler.TileType.HEXAGON)) { }
+        else
+        {
+            LandingUnit();
+            // 놔두면 비활성화
+            tileHandler.TileOff();
+            tileFinderObj.SetActive(false);
+        }// if: Fight 턴에 필드 드래그 불가
     }
     void FollowMouse()
     {
@@ -75,28 +85,45 @@ public class UnitHandler : MonoBehaviour
         // 랜딩 위치를 잡아준다.
         SetupLandingTile();
 
-        if(landingTile != default)
+        if (landingTile != default)
         {
-            if (inven.IsEmptyTile(landingTile))
+            if (GameManager.instance.myTurn == GameManager.TurnType.FIGHT &&
+                landingTile.type == TileHandler.TileType.HEXAGON)
             {
-                LandToTile();
+                ReturnRightPos();
             }
             else
             {
-                SwapTwoTiles();
-            }
-        }
+                LandingUnitRightPos();
+            }// if: Fight 턴에 필드로 낼 수 없다.
+        }// if: 착지할 위치가 타일 형태로 존재한다면
         else
         {
             ReturnRightPos();
+            
+            // 상자에 드래그 하면 판다.
+            if (tileFinder.isChest)
+            {
+                inven.SellChampToList(unit.name, inven.inven);
+            }
         }
-        
+    }
+    void LandingUnitRightPos()
+    {
+        if (inven.IsEmptyTile(landingTile))
+        {
+            LandToTile();
+        }
+        else
+        {
+            SwapTwoTiles();
+        }
     }
     void LandToTile()
     {
         Vector3 landingPos;
 
-        if(landingTile == unit.standingTile)
+        if (landingTile == unit.standingTile)
         {
             ReturnRightPos();
         }
@@ -104,8 +131,6 @@ public class UnitHandler : MonoBehaviour
         {
             landingPos = landingTile.tile.transform.position;
             unitObj.transform.position = landingPos;
-            unit.standingTile.isEmpty = true;
-            landingTile.isEmpty = false;
             inven.MoveChamp(unitObj, landingTile);
         }
     }
@@ -113,9 +138,6 @@ public class UnitHandler : MonoBehaviour
     {
         // 자리를 swap 하기 위해서 무조건 되돌아간다.
         ReturnRightPos();
-
-        unit.standingTile.isEmpty = false;
-        landingTile.isEmpty = false;
         inven.SwapChamp(landingTile, unit.standingTile);
     }
     #endregion

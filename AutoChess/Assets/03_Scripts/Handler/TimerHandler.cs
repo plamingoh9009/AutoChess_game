@@ -8,11 +8,13 @@ public class TimerHandler : MonoBehaviour
     int _timer;
     UnityEngine.UI.Text _uiText;
     RollChampions _containerHandler;
+    Inventory inven;
 
     private void Awake()
     {
         _timer = 30;
         _uiText = GameObject.Find("Count").GetComponent<UnityEngine.UI.Text>();
+        inven = MyFunc.GetObject(MyFunc.ObjType.INVENTORY).GetComponent<Inventory>();
     }
     private void Start()
     {
@@ -46,6 +48,8 @@ public class TimerHandler : MonoBehaviour
                 // 시간과 색을 바꾼다
                 _timer = 45;
                 _uiText.color = new Color(255/255f, 134/255f, 78/255f);
+                StartCoroutine(inven.AutoThrowChampToField());
+                StartCoroutine(inven.AutoReturnChamp());
                 break;
             case GameManager.TurnType.FIGHT:
                 // 게임매니저의 턴타입을 바꾼다
