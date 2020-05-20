@@ -16,7 +16,6 @@ TagManager:
   - Triggers
   - InvenTile
   - FieldTile
-  - Unit
   - 
   - 
   - 
@@ -37,6 +36,7 @@ TagManager:
   - 
   - 
   - Shop
+  - Unit
   m_SortingLayers:
   - name: Default
     uniqueID: 0

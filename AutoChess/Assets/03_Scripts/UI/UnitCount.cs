@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class UnitCount : MonoBehaviour
 {
-    public int currentUnit;
+    public int currentField;
     public int maxUnit;
     List<GameObject> objList;
 
     private void Awake()
     {
-        currentUnit = 0;
+        currentField = 0;
         maxUnit = 2;
         SetupList();
     }
@@ -25,14 +25,14 @@ public class UnitCount : MonoBehaviour
     }
 
     #region finished works
-    public void UpdateUnit(int count)
+    public void UpdateFieldCnt(int count)
     {
-        currentUnit = count;
+        currentField = count;
         UpdateTexts();
     }
-    public void AddUnit(int add)
+    public void AddFieldCnt(int add)
     {
-        currentUnit += add;
+        currentField += add;
         UpdateTexts();
     }
     public void IncreaceMax()
@@ -46,7 +46,7 @@ public class UnitCount : MonoBehaviour
         foreach(var ele in objList)
         {
             uiText = ele.transform.Find("Current").GetComponent<Text>();
-            uiText.text = currentUnit.ToString();
+            uiText.text = currentField.ToString();
 
             uiText = ele.transform.Find("Max").GetComponent<Text>();
             uiText.text = "/" + maxUnit.ToString();

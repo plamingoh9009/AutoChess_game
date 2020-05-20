@@ -12,6 +12,7 @@ public class ExpSlider : MonoBehaviour
 
     GoldUi goldUi;
     UnitCount unitCount;
+    MessageBox messageBox;
     private void Awake()
     {
         currentExp = 0;
@@ -20,6 +21,8 @@ public class ExpSlider : MonoBehaviour
         slider = GetComponent<Image>();
         goldUi = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
         unitCount = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<UnitCount>();
+        messageBox = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).
+            transform.Find("MessageBox").GetComponent<MessageBox>();
     }
 
     public void OnClickButton()
@@ -68,5 +71,6 @@ public class ExpSlider : MonoBehaviour
         unitCount.IncreaceMax();
 
         slider.fillAmount = 0f;
+        messageBox.OnMessageBox(MessageBox.MessageType.LEVEL_UP);
     }
 }

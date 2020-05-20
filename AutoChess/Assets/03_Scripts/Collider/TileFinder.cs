@@ -9,10 +9,15 @@ public class TileFinder : MonoBehaviour
     List<TileHandler.TileInfo> fieldTiles;
     public TileHandler.TileInfo detectedTile;
 
+    MouseOnChest chest;
+    public bool isChest;
+
     private void Awake()
     {
         tileHandler = MyFunc.GetObject(MyFunc.ObjType.TILE_CONTAINER).GetComponent<TileHandler>();
         detectedTile = new TileHandler.TileInfo();
+
+        isChest = false;
     }
     private void Start()
     {
@@ -30,6 +35,7 @@ public class TileFinder : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         detectedTile = default;
+        isChest = false;
     }
     void DetectTile(Collider other)
     {
@@ -40,6 +46,9 @@ public class TileFinder : MonoBehaviour
                 break;
             case "FieldTile":
                 detectedTile = tileHandler.FindTile(fieldTiles, other.transform.parent.gameObject);
+                break;
+            case "Shop":
+                isChest = true;
                 break;
         }
     }

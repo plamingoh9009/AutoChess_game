@@ -160,6 +160,11 @@ public class ChampionPool : MonoBehaviour
         champ.champion.transform.position = new Vector3(0, 0, 0);
         champ.champion.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         champ.champion.transform.localScale = new Vector3(1, 1, 1);
+        if(champ.standingTile != default)
+        {
+            champ.standingTile.isEmpty = true;
+            champ.standingTile = default;
+        }
         champ.champion.gameObject.SetActive(false);
         championPool.Add(champ);
     }

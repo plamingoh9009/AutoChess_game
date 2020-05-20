@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class Inventory : MonoBehaviour
 {
     public List<ChampionPool.ChampInstance> inven;
@@ -12,7 +11,7 @@ public class Inventory : MonoBehaviour
 
     TileHandler tileHandler;
     List<TileHandler.TileInfo> _squareTiles;
-    List<TileHandler.TileInfo> _HexaTiles;
+    List<TileHandler.TileInfo> _hexaTiles;
     int maxSize;
 
     GoldUi gold;
@@ -29,7 +28,7 @@ public class Inventory : MonoBehaviour
     {
         tileHandler = GameObject.Find("FixedObject/Tiles").GetComponent<TileHandler>();
         _squareTiles = tileHandler.squareInstances;
-        _HexaTiles = tileHandler.hexaInstances;
+        _hexaTiles = tileHandler.hexaInstances;
         gold = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
         unitCount = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<UnitCount>();
     }
@@ -46,11 +45,96 @@ public class Inventory : MonoBehaviour
         champ.champion.transform.parent = invenObj.transform;
         CollocateChamp(champ);
         inven.Add(champ);
-        // Unit count update
-        int unitCnt = inven.Count + field.Count;
-        unitCount.UpdateUnit(unitCnt);
         return true;
     }
+    public void SellChampToList(string champName, List<ChampionPool.ChampInstance> list)
+    {
+        ChampionPool.ChampInstance returnChamp = default;
+        foreach(var ele in list)
+        {
+            if(ele.name.CompareTo(champName) == 0)
+            {
+                returnChamp = ele;
+                list.Remove(ele);
+                break;
+            }
+        }
+        gold.AddGold(2);
+        unitCount.UpdateFieldCnt(field.Count);
+        ChampionPool.instance.GetBackChamp(returnChamp);
+    }
+    #region Auto function()
+    public IEnumerator AutoThrowChampToField()
+    {
+        int loopCnt = 0;
+        ChampionPool.ChampInstance throwChamp = new ChampionPool.ChampInstance();
+        TileHandler.TileInfo emptyField = new TileHandler.TileInfo();
+        if (unitCount.currentField < unitCount.maxUnit)
+        {
+            loopCnt = unitCount.maxUnit - unitCount.currentField;
+            for (int i = 0; i < loopCnt; i++)
+            {
+                yield return new WaitForSeconds(Time.deltaTime);
+                foreach (var ele in inven)
+                {
+                    throwChamp = ele;
+                    break;
+                }
+                foreach (var ele in _hexaTiles)
+                {
+                    if (ele.isEmpty)
+                    {
+                        emptyField = ele;
+                        break;
+                    }
+                }
+                // 인벤을 다 찾아도 챔피언이 없다면 break
+                if (throwChamp != default)
+                {
+                    MoveChamp(throwChamp.champion, emptyField);
+                }
+                else { break; }
+            }// loop: 모자란 만큼 챔피언을 필드에 던진다.
+        }// if: 현재 필드가 모자라다면
+    }
+    public IEnumerator AutoReturnChamp()
+    {
+        int loopCnt = 0;
+        ChampionPool.ChampInstance returnChamp = new ChampionPool.ChampInstance();
+        TileHandler.TileInfo emptyInven = new TileHandler.TileInfo();
+        if (unitCount.currentField > unitCount.maxUnit)
+        {
+            loopCnt = unitCount.currentField - unitCount.maxUnit;
+            for (int i = 0; i < loopCnt; i++)
+            {
+                emptyInven = default;
+                yield return new WaitForSeconds(Time.deltaTime);
+                foreach (var ele in field)
+                {
+                    returnChamp = ele;
+                    break;
+                }
+                foreach (var ele in _squareTiles)
+                {
+                    if (ele.isEmpty)
+                    {
+                        emptyInven = ele;
+                        break;
+                    }
+                }
+                // 인벤을 다 찾아도 빈곳이 없다면 챔피언을 강제로 판다
+                if (emptyInven != default)
+                {
+                    MoveChamp(returnChamp.champion, emptyInven);
+                }
+                else
+                {
+                    SellChampToList(returnChamp.name, field);
+                }
+            }// loop: 넘치는 만큼 챔피언을 인벤에 되돌린다.
+        }// if: 현재 필드가 넘친다면
+    }
+    #endregion
     #region Swap, Move
     public void SwapChamp(TileHandler.TileInfo landingTile,
         TileHandler.TileInfo standingTile)
@@ -79,13 +163,21 @@ public class Inventory : MonoBehaviour
                 break;
         }// switch: 부모 오브젝트를 바꾼다.
 
+        // 리스트 요소를 바꾼다.
+        if (champ.standingTile.type == landingTile.type) { }
+        else
+        {
+            ChangeInvenList(champ);
+            ChangeFieldList(champ);
+        }// if: [인벤 -> 필드, 필드 -> 인벤] 같은 경우에는 리스트를 옮긴다.
+        // 필드 카운트를 업데이트 한다.
+        unitCount.UpdateFieldCnt(field.Count);
+
         // 위치를 바꾼다.
         champ.champion.transform.position = landingTile.tile.transform.position;
+        champ.standingTile.isEmpty = true;
         champ.standingTile = landingTile;
-
-        // 리스트 요소를 바꾼다.
-        ChangeInvenList(champ);
-        ChangeFieldList(champ);
+        champ.standingTile.isEmpty = false;
     }
     #endregion
 
