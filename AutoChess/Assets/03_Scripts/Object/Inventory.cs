@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ChampInstance = ChampionPool.ChampInstance;
+using ChampInstances = System.Collections.Generic.List<ChampionPool.ChampInstance>;
 public class Inventory : MonoBehaviour
 {
-    public List<ChampionPool.ChampInstance> inven;
-    public List<ChampionPool.ChampInstance> field;
+    public ChampInstances inven;
+    public ChampInstances field;
     GameObject invenObj;
     GameObject fieldObj;
 
@@ -18,8 +20,8 @@ public class Inventory : MonoBehaviour
     UnitCount unitCount;
     private void Awake()
     {
-        inven = new List<ChampionPool.ChampInstance>();
-        field = new List<ChampionPool.ChampInstance>();
+        inven = new ChampInstances();
+        field = new ChampInstances();
         invenObj = transform.Find("Inventory").gameObject;
         fieldObj = transform.Find("Field").gameObject;
         maxSize = 9;
@@ -32,10 +34,10 @@ public class Inventory : MonoBehaviour
         gold = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
         unitCount = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<UnitCount>();
     }
-
+    #region Inven in/out
     public bool IntoInventory(string champName)
     {
-        ChampionPool.ChampInstance champ;
+        ChampInstance champ;
         if (IsRemainInven() == false)
         {
             return false;
@@ -45,24 +47,150 @@ public class Inventory : MonoBehaviour
         champ.champion.transform.parent = invenObj.transform;
         CollocateChamp(champ);
         inven.Add(champ);
+
         return true;
     }
-    public void SellChampToList(string champName, List<ChampionPool.ChampInstance> list)
+    public void SellChampToList(ChampInstance champ)
     {
-        ChampionPool.ChampInstance returnChamp = default;
-        foreach(var ele in list)
+        switch(champ.standingTile.type)
         {
-            if(ele.name.CompareTo(champName) == 0)
+            case TileHandler.TileType.SQUARE:
+                RemoveChampToList(champ, inven);
+                break;
+            case TileHandler.TileType.HEXAGON:
+                RemoveChampToList(champ, field);
+                break;
+        }
+        gold.AddGold(2);
+    }
+    void RemoveChampToList(ChampInstance champ,
+        ChampInstances list)
+    {
+        ChampInstance returnChamp = default;
+        foreach (var ele in list)
+        {
+            if (ele == champ)
             {
                 returnChamp = ele;
                 list.Remove(ele);
                 break;
             }
         }
-        gold.AddGold(2);
+
         unitCount.UpdateFieldCnt(field.Count);
         ChampionPool.instance.GetBackChamp(returnChamp);
     }
+    #endregion
+    #region Quality up()
+    public void QualityUpChampion()
+    {
+        ChampInstance target = default;
+        ChampInstances sameList = default;
+
+        target = FindQualityUpChamp();
+        sameList = FindSimilarChamps(target);
+        if(target != default)
+        {
+            int count = 0;
+            foreach(var ele in sameList)
+            {
+                if(target == ele) { }
+                else
+                {
+                    if(count >= 2) { break; }
+                    else
+                    {
+                        if(ele.standingTile.type == TileHandler.TileType.HEXAGON)
+                        {
+                            RemoveChampToList(ele, field);
+                        }
+                        else if(ele.standingTile.type == TileHandler.TileType.SQUARE)
+                        {
+                            RemoveChampToList(ele, inven);
+                        }
+                        count++;
+                    }
+                }
+            }
+            QualityUp(target);
+        }
+    }
+    ChampInstance FindQualityUpChamp()
+    {
+        ChampInstances sameList = default;
+        ChampInstance result = default;
+        bool findOk = false;
+        foreach(var ele in inven)
+        {
+            sameList = FindSimilarChamps(ele);
+            if(sameList.Count >= 3)
+            {
+                result = ele;
+                findOk = true;
+                break;
+            }
+        }// loop: 같은 챔프가 3 이상 있으면 탐색을 종료한다.
+        if(findOk)
+        {
+            foreach(var ele in sameList)
+            {
+                if(ele.standingTile.type == TileHandler.TileType.HEXAGON)
+                {
+                    result = ele;
+                    break;
+                }
+            }
+        }// if: 필드에 있는 것을 우선 리턴한다.
+        return result;
+    }
+    ChampInstances FindSimilarChamps(ChampInstance target)
+    {
+        ChampInstances similarList = default;
+        if(target != default)
+        {
+            similarList = new ChampInstances();
+            foreach (var ele in inven)
+            {
+                if (IsSimilarChamp(target, ele))
+                {
+                    similarList.Add(ele);
+                }
+            }
+            foreach (var ele in field)
+            {
+                if (IsSimilarChamp(target, ele))
+                {
+                    similarList.Add(ele);
+                }
+            }
+            similarList.Add(target);
+        }
+
+        return similarList;
+    }
+    bool QualityUp(ChampInstance target)
+    {
+        if (target == default) { return false; }
+        // 능력치가 좋아짐
+        // 크기가 커짐
+        float multiple = 1.5f;   // 얼마나 커지는지
+        Vector3 scale = default;
+        if (target.quality < 3)
+        {
+            scale = target.champion.transform.Find("character").localScale;
+            Debug.Log((target.name, target.quality, scale));
+            scale = new Vector3(
+                scale.x * Mathf.Pow(multiple, target.quality), 
+                scale.y * Mathf.Pow(multiple, target.quality), 
+                scale.z * Mathf.Pow(multiple, target.quality));
+            target.champion.transform.localScale = scale;
+            target.quality++;
+            Debug.Log((target.name, target.quality, scale));
+            return true;
+        }
+        return false;
+    }
+    #endregion
     #region Auto function()
     public IEnumerator AutoThrowChampToField()
     {
@@ -129,7 +257,7 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    SellChampToList(returnChamp.name, field);
+                    SellChampToList(returnChamp);
                 }
             }// loop: 넘치는 만큼 챔피언을 인벤에 되돌린다.
         }// if: 현재 필드가 넘친다면
@@ -147,7 +275,7 @@ public class Inventory : MonoBehaviour
     public void MoveChamp(GameObject champion,
         TileHandler.TileInfo landingTile)
     {
-        ChampionPool.ChampInstance sour = FindChampFromInstance(champion);
+        ChampInstance sour = FindChampFromInstance(champion);
         ChangeChampTransform(sour, landingTile);
     }
     void ChangeChampTransform(ChampionPool.ChampInstance champ,
@@ -182,11 +310,12 @@ public class Inventory : MonoBehaviour
     #endregion
 
     #region finished works
+    #region Sorting
     /// <summary>
     /// 챔피언 구매시 빈 인벤토리 슬롯에 챔프를 배치하는 함수
     /// </summary>
     /// <param name="champ">상점에서 구입한 챔프</param>
-    void CollocateChamp(ChampionPool.ChampInstance champ)
+    void CollocateChamp(ChampInstance champ)
     {
         UnitHandler unitHandler = champ.champion.GetComponentInChildren<UnitHandler>();
         // 빈 인벤토리 슬롯 찾아서 챔프를 옮긴다.
@@ -196,8 +325,8 @@ public class Inventory : MonoBehaviour
             {
                 champ.champion.transform.position = ele.tile.transform.position;
                 champ.standingTile = ele;
+                champ.standingTile.isEmpty = false;
                 champ.champion.SetActive(true);
-                ele.isEmpty = false;
                 break;
             }
         }
@@ -213,6 +342,8 @@ public class Inventory : MonoBehaviour
             champ.SetActive(true);
         }
     }
+    #endregion
+    #region List in, out
     bool ChangeInvenList(ChampionPool.ChampInstance champ)
     {
         foreach (var ele in inven)
@@ -240,6 +371,8 @@ public class Inventory : MonoBehaviour
         field.Add(champ);
         return true;
     }
+    #endregion
+    #region Tile search
     public ChampionPool.ChampInstance FindChampFromTile(TileHandler.TileInfo standingTile)
     {
         foreach (var ele in inven)
@@ -294,6 +427,8 @@ public class Inventory : MonoBehaviour
         }
         return true;
     }
+    #endregion
+    #region Debug show
     public void ShowInven()
     {
         Debug.Log("### Inven ###");
@@ -304,6 +439,14 @@ public class Inventory : MonoBehaviour
         Debug.Log("### Field ###");
         ShowChampList(field);
     }
+    void ShowChampList(ChampInstances list)
+    {
+        foreach (var ele in list)
+        {
+            Debug.Log((ele.name, ele.champion));
+        }
+    }
+    #endregion
     /// <summary>
     /// 인벤토리에 자리가 남는지 확인하는 함수
     /// </summary>
@@ -318,12 +461,18 @@ public class Inventory : MonoBehaviour
             return false;
         }
     }
-    void ShowChampList(List<ChampionPool.ChampInstance> list)
+    bool IsSimilarChamp(ChampInstance first, ChampInstance second)
     {
-        foreach (var ele in list)
+        if (first == second || first.quality >= 3 || second.quality >= 3) { }
+        else
         {
-            Debug.Log((ele.name, ele.champion));
+            if (first.name.CompareTo(second.name) == 0 &&
+            first.quality == second.quality)
+            {
+                return true;
+            }
         }
+        return false;
     }
     #endregion
 }

@@ -19,7 +19,7 @@ public class UnitHandler : MonoBehaviour
     float cameraCorrectionZ;
     private void Awake()
     {
-        unitObj = transform.parent.gameObject;
+        unitObj = transform.parent.parent.gameObject;
         tileHandler = MyFunc.GetObject(MyFunc.ObjType.TILE_CONTAINER).GetComponent<TileHandler>();
         landingTile = new TileHandler.TileInfo();
         tileFinderObj = unitObj.transform.Find("TileFinder").gameObject;
@@ -104,7 +104,7 @@ public class UnitHandler : MonoBehaviour
             // 상자에 드래그 하면 판다.
             if (tileFinder.isChest)
             {
-                inven.SellChampToList(unit.name, inven.inven);
+                inven.SellChampToList(unit);
             }
         }
     }
