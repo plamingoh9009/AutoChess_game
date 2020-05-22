@@ -68,6 +68,7 @@
     <Compile Include="Assets\03_Scripts\ExtraScripts\Outline.cs" />
     <Compile Include="Assets\03_Scripts\GameManager.cs" />
     <Compile Include="Assets\03_Scripts\Handler\CloseHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\EnemyHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\LockHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\RerollBtnHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\TileHandler.cs" />
@@ -79,12 +80,15 @@
     <Compile Include="Assets\03_Scripts\Object\GoldStatue.cs" />
     <Compile Include="Assets\03_Scripts\Object\Inventory.cs" />
     <Compile Include="Assets\03_Scripts\Object\MouseOnChest.cs" />
+    <Compile Include="Assets\03_Scripts\Object\PlayerInven.cs" />
     <Compile Include="Assets\03_Scripts\Object\RollChampions.cs" />
     <Compile Include="Assets\03_Scripts\Object\ShopAwake.cs" />
     <Compile Include="Assets\03_Scripts\UI\ExpSlider.cs" />
     <Compile Include="Assets\03_Scripts\UI\GoldUi.cs" />
     <Compile Include="Assets\03_Scripts\UI\MessageBox.cs" />
     <Compile Include="Assets\03_Scripts\UI\PauseButton.cs" />
+    <Compile Include="Assets\03_Scripts\UI\PlayButton.cs" />
+    <Compile Include="Assets\03_Scripts\UI\PlayerUi.cs" />
     <Compile Include="Assets\03_Scripts\UI\UnitCount.cs" />
     <Compile Include="Assets\03_Scripts\UI\UpgradeBtn.cs" />
     <Compile Include="Assets\06_ExtraPackages\RoundedSquare\Scripts\CreateGrid.cs" />

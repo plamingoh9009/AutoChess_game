@@ -8,13 +8,26 @@ public class TimerHandler : MonoBehaviour
     int _timer;
     UnityEngine.UI.Text _uiText;
     RollChampions _containerHandler;
-    Inventory inven;
+
+    PlayButton playBtn;
+    UpgradeBtn upgradeBtn;
+
+    Inventory playerInven;
+    GoldUi playerGoldInfo;
+    EnemyHandler enemyHandler;
 
     private void Awake()
     {
         _timer = 30;
         _uiText = GameObject.Find("Count").GetComponent<UnityEngine.UI.Text>();
-        inven = MyFunc.GetObject(MyFunc.ObjType.INVENTORY).GetComponent<Inventory>();
+        playBtn = MyFunc.GetObject(MyFunc.ObjType.PLAY_BUTTON).GetComponent<PlayButton>();
+        upgradeBtn = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).
+            transform.Find("UpgradeBtn").GetComponent<UpgradeBtn>();
+
+        playerInven = MyFunc.GetObject(MyFunc.ObjType.INVENTORY).GetComponent<Inventory>();
+        playerGoldInfo = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
+
+        enemyHandler = MyFunc.GetObject(MyFunc.ObjType.ENEMY).GetComponent<EnemyHandler>();
     }
     private void Start()
     {
@@ -35,10 +48,12 @@ public class TimerHandler : MonoBehaviour
             }// if: 이전 턴이 끝났다면 다음 턴을 시작한다
             // 마지막으로 숫자를 렌더한다.
             _uiText.text = _timer.ToString();
+
+            upgradeBtn.VisibleButton(playerInven.IsQualityUpPossible());
         }
     }
 
-    void ChangeGameTurnType()
+    public void ChangeGameTurnType()
     {
         switch(GameManager.instance.myTurn)
         {
@@ -48,8 +63,10 @@ public class TimerHandler : MonoBehaviour
                 // 시간과 색을 바꾼다
                 _timer = 45;
                 _uiText.color = new Color(255/255f, 134/255f, 78/255f);
-                StartCoroutine(inven.AutoThrowChampToField());
-                StartCoroutine(inven.AutoReturnChamp());
+                StartCoroutine(playerInven.AutoThrowChampToField());
+                StartCoroutine(playerInven.AutoReturnChamp());
+
+                enemyHandler.GoToFightTurn();
                 break;
             case GameManager.TurnType.FIGHT:
                 // 게임매니저의 턴타입을 바꾼다
@@ -58,6 +75,12 @@ public class TimerHandler : MonoBehaviour
                 _timer = 30;
                 _uiText.color = new Color(142/255f, 236/255f, 57/255f);
                 _containerHandler.Reroll();
+
+                // 스킵 버튼을 보이게 한다.
+                playBtn.VisibleButton(true);
+                // 싸움 턴에서 레디 턴으로 갈 때 이자를 받는다.
+                playerGoldInfo.AddInterest();
+                enemyHandler.GoToReadyTurn();
                 break;
             default:
                 break;

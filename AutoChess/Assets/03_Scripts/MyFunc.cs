@@ -11,16 +11,26 @@ public static class MyFunc
     }
     public enum ObjType
     {
+        #region Shop
         SHOP_OBJECT,
         SHOP_CONTAINER,
         SHOP_COLLIDER,
+        #endregion
+        #region Fixed object
         FIXED_OBJECT,
         INVENTORY,
         TILE_CONTAINER,
         CHEST_COLLIDER,
+        TIMER,
+        #endregion
+        ENEMY,
+        ENEMY_INFO,
+        #region UI
         PLAYER_UI,
         MESSAGE_BOX,
-        GOLD
+        GOLD,
+        PLAY_BUTTON
+        #endregion
     }
     public static string GetPath(PathType type)
     {
@@ -72,7 +82,19 @@ public static class MyFunc
                 target = GetObject(ObjType.FIXED_OBJECT);
                 target = target.transform.Find("Chests/ChestCollider").gameObject;
                 break;
+            case ObjType.TIMER:
+                target = GetObject(ObjType.PLAYER_UI);
+                target = target.transform.Find("Round_info/Timer").gameObject;
+                break;
             #endregion
+            case ObjType.ENEMY:
+                target = GameObject.Find("Enemy");
+                break;
+            case ObjType.ENEMY_INFO:
+                target = GetObject(ObjType.ENEMY);
+                target = target.transform.Find("EnemyInfo").gameObject;
+                break;
+            #region UI
             case ObjType.PLAYER_UI:
                 target = GameObject.Find("PlayerUi");
                 break;
@@ -84,6 +106,11 @@ public static class MyFunc
                 target = GetObject(ObjType.PLAYER_UI);
                 target = target.transform.Find("Gold").gameObject;
                 break;
+            case ObjType.PLAY_BUTTON:
+                target = GetObject(ObjType.PLAYER_UI);
+                target = target.transform.Find("StageButtons/PlayButton").gameObject;
+                break;
+            #endregion
         }
         return target;
     }

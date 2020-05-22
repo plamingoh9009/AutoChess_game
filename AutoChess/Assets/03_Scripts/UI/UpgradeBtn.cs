@@ -19,13 +19,6 @@ public class UpgradeBtn : MonoBehaviour
 
     public void VisibleButton(bool isVisible)
     {
-        if (isVisible)
-        {
-            upgradeButton.SetActive(true);
-        }
-        else
-        {
-            upgradeButton.SetActive(false);
-        }
+        upgradeButton.SetActive(isVisible);
     }
 }

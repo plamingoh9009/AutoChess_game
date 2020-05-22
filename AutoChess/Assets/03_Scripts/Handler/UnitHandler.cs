@@ -39,31 +39,41 @@ public class UnitHandler : MonoBehaviour
     private void OnMouseDown()
     {
         unit = inven.FindChampFromInstance(unitObj);
-        tileFinderObj.SetActive(true);
+        if (unit != default && unit.isClickOk)
+        {
+            tileFinderObj.SetActive(true);
+        }
     }
     private void OnMouseDrag()
     {
-        if ((GameManager.instance.myTurn == GameManager.TurnType.FIGHT) &&
-            (unit.standingTile.type == TileHandler.TileType.HEXAGON)) { }
-        else
+        if(unit != default && unit.isClickOk)
         {
-            // 드래그 할 때 모든 타일 활성화
-            tileHandler.TileOn();
-            // 마우스 좌표 받아오기
-            FollowMouse();
-        }// if: Fight 턴에 필드 드래그 불가
+            if ((GameManager.instance.myTurn == GameManager.TurnType.FIGHT) &&
+            (unit.standingTile.type == TileHandler.TileType.HEXAGON)) { }
+            else
+            {
+                // 드래그 할 때 모든 타일 활성화
+                tileHandler.TileOn();
+                // 마우스 좌표 받아오기
+                FollowMouse();
+            }// if: Fight 턴에 필드 드래그 불가
+        }
+        
     }
     private void OnMouseUp()
     {
-        if ((GameManager.instance.myTurn == GameManager.TurnType.FIGHT) &&
-            (unit.standingTile.type == TileHandler.TileType.HEXAGON)) { }
-        else
+        if(unit != default && unit.isClickOk)
         {
-            LandingUnit();
-            // 놔두면 비활성화
-            tileHandler.TileOff();
-            tileFinderObj.SetActive(false);
-        }// if: Fight 턴에 필드 드래그 불가
+            if ((GameManager.instance.myTurn == GameManager.TurnType.FIGHT) &&
+            (unit.standingTile.type == TileHandler.TileType.HEXAGON)) { }
+            else
+            {
+                LandingUnit();
+                // 놔두면 비활성화
+                tileHandler.TileOff();
+                tileFinderObj.SetActive(false);
+            }// if: Fight 턴에 필드 드래그 불가
+        }
     }
     void FollowMouse()
     {
@@ -100,7 +110,7 @@ public class UnitHandler : MonoBehaviour
         else
         {
             ReturnRightPos();
-            
+
             // 상자에 드래그 하면 판다.
             if (tileFinder.isChest)
             {
