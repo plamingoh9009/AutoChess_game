@@ -2,34 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ChampInstance = ChampionPool.ChampInstance;
+using ChampInstances = System.Collections.Generic.List<ChampionPool.ChampInstance>;
 public class RollChampions : MonoBehaviour
 {
     #region Variable
     ChampionPool _pool;
     ShopCollider shopCollider;
     List<int> _rollChampions;
-    List<ChampionPool.ChampInstance> currentRoll;
-    List<ChampionPool.ChampInstance> _nextRoll;
+    public ChampInstances currentRoll;
+    ChampInstances _nextRoll;
     public bool isLocked { get; set; }
     #endregion
     #region Start()
     private void Awake()
     {
+        shopCollider = default;
         _rollChampions = new List<int>();
-        currentRoll = new List<ChampionPool.ChampInstance>();
-        _nextRoll = new List<ChampionPool.ChampInstance>();
+        currentRoll = new List<ChampInstance>();
+        _nextRoll = new List<ChampInstance>();
         isLocked = false;
     }
 
     private void Start()
     {
         _pool = ChampionPool.instance;
-        shopCollider = MyFunc.GetObject(MyFunc.ObjType.SHOP_COLLIDER).GetComponent<ShopCollider>();
         Roll();
-        SetupShopCollider();
     }
-    void SetupShopCollider()
+    public void SetupShopCollider(ShopCollider shopCollider_)
     {
+        shopCollider = shopCollider_;
         shopCollider.PushCurrentRoll(currentRoll);
         shopCollider.InitColliderPos();
     }
@@ -50,8 +52,11 @@ public class RollChampions : MonoBehaviour
             MyFunc.Swap(ref currentRoll, ref _nextRoll);
             RollChampToList(_nextRoll);
             SetupChampActive(currentRoll, true);
-            // 리롤할 때 shopCollider를 다시 active로 전환한다.
-            shopCollider.ActiveAllColliders();
+            if(shopCollider != default)
+            {
+                // 리롤할 때 shopCollider를 다시 active로 전환한다.
+                shopCollider.ActiveAllColliders();
+            }
         }
     }
     #endregion
@@ -61,7 +66,7 @@ public class RollChampions : MonoBehaviour
     {
         int rollIdx;
         string champName;
-        ChampionPool.ChampInstance champ;
+        ChampInstance champ;
         
         if(champList.Count > 0)
         {
@@ -113,7 +118,7 @@ public class RollChampions : MonoBehaviour
     public string ReleaseChamp(int idx)
     {
         string champName;
-        ChampionPool.ChampInstance champ;
+        ChampInstance champ;
         champ = currentRoll[idx];
         champName = champ.name;
         // 리스트에서 빼지 않고, 보이지 않도록 false 처리한다.

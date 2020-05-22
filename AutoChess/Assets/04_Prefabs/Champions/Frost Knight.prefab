@@ -4055,6 +4055,7 @@ Transform:
   - {fileID: 5379784948925098087}
   - {fileID: 8941930280901442105}
   - {fileID: 3325087909456210168}
+  - {fileID: 7799265497183981324}
   m_Father: {fileID: 8630654999615776711}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8374,7 +8375,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8630654999628429138}
-  - {fileID: 7799265497183981324}
   - {fileID: 210502632059423266}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -8734,7 +8734,7 @@ PrefabInstance:
     - target: {fileID: 6050175098740175964, guid: e71f9d0d312e7fa4c9ea52ce7eaf128c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6050175098740175964, guid: e71f9d0d312e7fa4c9ea52ce7eaf128c,
         type: 3}
@@ -8769,7 +8769,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8630654999615776711}
+    m_TransformParent: {fileID: 8630654999628429138}
     m_Modifications:
     - target: {fileID: 526550259071034679, guid: 0cac8ce0bc93a7543b2a3948f814f071,
         type: 3}
@@ -8794,12 +8794,12 @@ PrefabInstance:
     - target: {fileID: 526550259071034679, guid: 0cac8ce0bc93a7543b2a3948f814f071,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 526550259071034679, guid: 0cac8ce0bc93a7543b2a3948f814f071,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 526550259071034679, guid: 0cac8ce0bc93a7543b2a3948f814f071,
         type: 3}
@@ -8809,7 +8809,7 @@ PrefabInstance:
     - target: {fileID: 526550259071034679, guid: 0cac8ce0bc93a7543b2a3948f814f071,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 526550259071034679, guid: 0cac8ce0bc93a7543b2a3948f814f071,
         type: 3}

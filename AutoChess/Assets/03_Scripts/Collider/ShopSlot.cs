@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ChampInstance = ChampionPool.ChampInstance;
 public class ShopSlot : MonoBehaviour
 {
     ShopCollider shopCollider;
@@ -32,7 +33,7 @@ public class ShopSlot : MonoBehaviour
         {
             if (gold.gold >= 2)
             {
-                BuyChampion(champIdx);
+                BuyChampion(champIdx, inven.inven, inven.gameObject);
             }
             else
             {
@@ -45,13 +46,13 @@ public class ShopSlot : MonoBehaviour
         }
     }
 
-    void BuyChampion(int champIdx)
+    void BuyChampion(int champIdx, List<ChampInstance> myInven, GameObject myInvenObj)
     {
         string champName;
         // Roll champions 에서 챔피언 지우기
         champName = shopContainer.ReleaseChamp(champIdx);
-        gold.AddGold(-2);                   // 골드 깎기
-        inven.IntoInventory(champName);     // 인벤토리에 챔피언 넣기
+        gold.AddGold(-2);                       // 골드 깎기
+        inven.IntoInventory(champName, true);   // 인벤토리에 챔피언 넣기
 
         // 스스로 Set false 하기
         gameObject.SetActive(false);

@@ -9,17 +9,15 @@ public class GoldStatue : MonoBehaviour
     private void Awake()
     {
         goldStatues = new List<GameObject>();
-        goldUi = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
-        SetupGoldStatues();
     }
-    void SetupGoldStatues()
+    public void SetupGoldStatues(GoldUi myGoldUi)
     {
+        goldUi = myGoldUi;
         for (int i = 0; i < transform.childCount; i++)
         {
             goldStatues.Add(transform.GetChild(i).gameObject);
         }
     }
-
     public void SyncStatueWithGold()
     {
         int statueCnt = 0;

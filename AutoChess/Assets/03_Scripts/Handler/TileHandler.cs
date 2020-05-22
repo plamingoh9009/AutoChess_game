@@ -28,34 +28,36 @@ public class TileHandler : MonoBehaviour
     #endregion
     private void Awake()
     {
-        _squareTileContainer = GameObject.Find("Tiles/SquareTiles");
-        _hexaTileContainer = GameObject.Find("Tiles/HexaTiles");
-        tileExplorerObj = GameObject.Find("Tiles").transform.Find("TileFinder").gameObject;
+        _squareTileContainer = transform.Find("SquareTiles").gameObject;
+        _hexaTileContainer = transform.Find("HexaTiles").gameObject;
+        tileExplorerObj = transform.Find("TileFinder").gameObject;
         tileExplorer = tileExplorerObj.GetComponent<TileFinder>();
         squareInstances = new List<TileInfo>();
         hexaInstances = new List<TileInfo>();
-
-        SetupSquareTiles();
-        SetupHexagonTiles();
+    }
+    public void SetupTiles(bool isReverse = false)
+    {
+        SetupSquareTiles(isReverse);
+        SetupHexagonTiles(isReverse);
     }
     #region Tile setup
-    void SetupSquareTiles()
+    void SetupSquareTiles(bool isReverse = false)
     {
         int rows = 9;
         float distance = 2.5f;
 
-        MakeTiles(TileType.SQUARE, distance, rows);
+        squareInstances = MakeTiles(TileType.SQUARE, distance, rows, 1, isReverse);
     }
-    void SetupHexagonTiles()
+    void SetupHexagonTiles(bool isReverse = false)
     {
         int rows = 7;
         int cols = 3;
         float distance = 3f;
 
-        MakeTiles(TileType.HEXAGON, distance, rows, cols);
+        hexaInstances = MakeTiles(TileType.HEXAGON, distance, rows, cols, isReverse);
     }
     #endregion
-    void MakeTiles(TileType type, float distance, int rows, int cols = 1)
+    List<TileInfo> MakeTiles(TileType type, float distance, int rows, int cols = 1, bool isReverse = false)
     {
         string path = MyFunc.GetPath(MyFunc.PathType.PREFABS);
         string objName = "";
@@ -68,18 +70,16 @@ public class TileHandler : MonoBehaviour
             case TileType.SQUARE:
                 objName = "indicator square.prefab";
                 parrent = _squareTileContainer;
-                instanceList = squareInstances;
                 break;
             case TileType.HEXAGON:
                 objName = "indicator hexa.prefab";
                 parrent = _hexaTileContainer;
-                instanceList = hexaInstances;
                 break;
             default:
                 break;
         }
         prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path + objName);
-
+        instanceList = new List<TileInfo>();
         float rowPos, colPos;
         for (int i = 0; i < cols; i++)
         {
@@ -97,6 +97,11 @@ public class TileHandler : MonoBehaviour
                         {
                             rowPos -= distance * 0.5f;
                         }
+                        if(isReverse)
+                        {
+                            rowPos *= -1;
+                            colPos *= -1;
+                        }
                         tileInfo.tile.transform.Translate(new Vector3(rowPos, 0, colPos));
                         tileInfo.type = TileType.HEXAGON;
                         tileInfo.idx = i * rows + k;
@@ -104,6 +109,11 @@ public class TileHandler : MonoBehaviour
                     default:
                         rowPos = distance * k;
                         colPos = distance * i;
+                        if (isReverse)
+                        {
+                            rowPos *= -1;
+                            colPos *= -1;
+                        }
                         tileInfo.tile.transform.Translate(new Vector3(rowPos, 0, colPos));
                         tileInfo.type = TileType.SQUARE;
                         tileInfo.idx = i * rows + k;
@@ -114,6 +124,7 @@ public class TileHandler : MonoBehaviour
                 instanceList.Add(tileInfo);
             }
         }// loop: 행, 열 매개변수를 참고해서 타일을 만든다.
+        return instanceList;
     }
     public TileInfo FindTile(List<TileInfo> tileList, GameObject tile)
     {

@@ -7,15 +7,15 @@ public class UnitCount : MonoBehaviour
 {
     public int currentField;
     public int maxUnit;
-    List<GameObject> objList;
+    public List<GameObject> objList;
 
     private void Awake()
     {
         currentField = 0;
         maxUnit = 2;
-        SetupList();
+        objList = default;
     }
-    void SetupList()
+    public void SetupList()
     {
         GameObject parrent = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI);
 

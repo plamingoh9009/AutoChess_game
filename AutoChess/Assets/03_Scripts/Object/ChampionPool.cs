@@ -14,6 +14,8 @@ public class ChampionPool : MonoBehaviour
         public string name;
         public GameObject champion;
         public TileHandler.TileInfo standingTile;
+        public int quality;
+        public bool isClickOk;
     }
     public List<string> championNames { get; private set; }
     public Dictionary<string, GameObject> championPrefabs { get; private set; }
@@ -101,6 +103,8 @@ public class ChampionPool : MonoBehaviour
             championPrefabs.TryGetValue(name, out myChamp);
             myInstance = new ChampInstance();
             myInstance.name = name;
+            myInstance.quality = 1;
+            myInstance.isClickOk = false;
             myInstance.champion = Instantiate(myChamp, Vector3.zero, Quaternion.identity, transform);
             myInstance.champion.SetActive(false);
             championPool.Add(myInstance);
@@ -165,6 +169,8 @@ public class ChampionPool : MonoBehaviour
             champ.standingTile.isEmpty = true;
             champ.standingTile = default;
         }
+        champ.quality = 1;
+        champ.isClickOk = false;
         champ.champion.gameObject.SetActive(false);
         championPool.Add(champ);
     }
