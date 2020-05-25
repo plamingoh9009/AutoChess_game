@@ -62,6 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\03_Scripts\ChampInfo.cs" />
+    <Compile Include="Assets\03_Scripts\Collider\AttackCollider.cs" />
     <Compile Include="Assets\03_Scripts\Collider\ShopCollider.cs" />
     <Compile Include="Assets\03_Scripts\Collider\ShopSlot.cs" />
     <Compile Include="Assets\03_Scripts\Collider\TileFinder.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Assets\03_Scripts\Handler\CloseHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\EnemyHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\LockHandler.cs" />
+    <Compile Include="Assets\03_Scripts\Handler\PlayerHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\RerollBtnHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\TileHandler.cs" />
     <Compile Include="Assets\03_Scripts\Handler\TimerHandler.cs" />

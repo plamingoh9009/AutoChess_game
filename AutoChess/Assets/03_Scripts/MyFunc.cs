@@ -23,6 +23,7 @@ public static class MyFunc
         CHEST_COLLIDER,
         TIMER,
         #endregion
+        PLAYER,
         ENEMY,
         ENEMY_INFO,
         #region UI
@@ -87,6 +88,9 @@ public static class MyFunc
                 target = target.transform.Find("Round_info/Timer").gameObject;
                 break;
             #endregion
+            case ObjType.PLAYER:
+                target = GameObject.Find("Player");
+                break;
             case ObjType.ENEMY:
                 target = GameObject.Find("Enemy");
                 break;

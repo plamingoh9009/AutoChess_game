@@ -15,6 +15,7 @@ public class TimerHandler : MonoBehaviour
     Inventory playerInven;
     GoldUi playerGoldInfo;
     EnemyHandler enemyHandler;
+    PlayerHandler playerHandler;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class TimerHandler : MonoBehaviour
         playerGoldInfo = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
 
         enemyHandler = MyFunc.GetObject(MyFunc.ObjType.ENEMY).GetComponent<EnemyHandler>();
+        playerHandler = MyFunc.GetObject(MyFunc.ObjType.PLAYER).GetComponent<PlayerHandler>();
     }
     private void Start()
     {
@@ -66,7 +68,10 @@ public class TimerHandler : MonoBehaviour
                 StartCoroutine(playerInven.AutoThrowChampToField());
                 StartCoroutine(playerInven.AutoReturnChamp());
 
-                enemyHandler.GoToFightTurn();
+                // 스킵 버튼을 안보이게 한다.
+                playBtn.VisibleButton(false);
+                enemyHandler.GotoFightTurn();
+                playerHandler.GotoFightTurn();
                 break;
             case GameManager.TurnType.FIGHT:
                 // 게임매니저의 턴타입을 바꾼다
@@ -80,7 +85,8 @@ public class TimerHandler : MonoBehaviour
                 playBtn.VisibleButton(true);
                 // 싸움 턴에서 레디 턴으로 갈 때 이자를 받는다.
                 playerGoldInfo.AddInterest();
-                enemyHandler.GoToReadyTurn();
+                enemyHandler.GotoReadyTurn();
+                playerHandler.GotoReadyTurn();
                 break;
             default:
                 break;

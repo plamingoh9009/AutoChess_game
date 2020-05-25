@@ -9,6 +9,18 @@ public class ChampionPool : MonoBehaviour
 {
     #region Variables
     public static ChampionPool instance = null;
+    public enum ChampType
+    {
+        ARCHER,
+        WIZZARD,
+        KNIGHT
+    }
+    public enum AttackType
+    {
+        FIRE,
+        FROST,
+        NATURE
+    }
     public class ChampInstance
     {
         public string name;
@@ -16,6 +28,37 @@ public class ChampionPool : MonoBehaviour
         public TileHandler.TileInfo standingTile;
         public int quality;
         public bool isClickOk;
+
+        public float hp;
+        public float maxHp;
+        public float range;
+        public float damage;
+        public ChampType champType;
+        public AttackType attackType;
+
+        private GameObject hpBar;
+        private GameObject attackCollider;
+        public bool isFightOk;
+        public void SetupDefault()
+        {
+            // Attack collider Range
+            attackCollider = champion.transform.Find("AttackCollider").gameObject;
+            attackCollider.transform.localScale = new Vector3(range, 0.1f, range);
+            ActiveAttackCollider(false);
+            // Hp bar
+            hpBar = champion.transform.Find("character/HpBar").gameObject;
+            VisibleHpBar(false);
+            // bool
+            isFightOk = false;
+        }
+        public void VisibleHpBar(bool isVisible)
+        {
+            hpBar.SetActive(isVisible);
+        }
+        public void ActiveAttackCollider(bool isActive)
+        {
+            attackCollider.SetActive(isActive);
+        }
     }
     public List<string> championNames { get; private set; }
     public Dictionary<string, GameObject> championPrefabs { get; private set; }
@@ -24,6 +67,7 @@ public class ChampionPool : MonoBehaviour
     string prefabPath;                     // 챔피언 프리팹 경로
     int addObjectCnt;                      // 풀에 오브젝트를 얼마나 추가할 지
     int maxPoolCnt;                        // 오브젝트풀의 최대 크기
+
     #endregion
 
     #region Start()
@@ -107,11 +151,13 @@ public class ChampionPool : MonoBehaviour
             myInstance.isClickOk = false;
             myInstance.champion = Instantiate(myChamp, Vector3.zero, Quaternion.identity, transform);
             myInstance.champion.SetActive(false);
+            ChampInfo.SetupChampInfo(myInstance);
+            myInstance.SetupDefault();
             championPool.Add(myInstance);
         }// loop: 정해진 크기만큼 미리 인스턴스를 생성한다
 
         // 오브젝트풀의 크기가 maxPoolCnt 보다 커지면 넘어간 만큼 지운다.
-        if(championPool.Count > maxPoolCnt)
+        if (championPool.Count > maxPoolCnt)
         {
             RemoveChamp(championPool.Count - maxPoolCnt);
         }
@@ -119,7 +165,7 @@ public class ChampionPool : MonoBehaviour
     void RemoveChamp(int count)
     {
         ChampInstance temp;
-        for(int i=0; i<count; i++)
+        for (int i = 0; i < count; i++)
         {
             temp = championPool[i];
             Destroy(temp.champion);
@@ -164,7 +210,7 @@ public class ChampionPool : MonoBehaviour
         champ.champion.transform.position = new Vector3(0, 0, 0);
         champ.champion.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         champ.champion.transform.localScale = new Vector3(1, 1, 1);
-        if(champ.standingTile != default)
+        if (champ.standingTile != default)
         {
             champ.standingTile.isEmpty = true;
             champ.standingTile = default;
