@@ -35,15 +35,19 @@ public class UnitCount : MonoBehaviour
         currentField += add;
         UpdateTexts();
     }
-    public void IncreaceMax()
+    public void IncreaceMax(bool isSkipText = false)
     {
         maxUnit++;
-        UpdateTexts();
+        if (isSkipText) { }
+        else
+        {
+            UpdateTexts();
+        }
     }
     void UpdateTexts()
     {
         Text uiText;
-        foreach(var ele in objList)
+        foreach (var ele in objList)
         {
             uiText = ele.transform.Find("Current").GetComponent<Text>();
             uiText.text = currentField.ToString();

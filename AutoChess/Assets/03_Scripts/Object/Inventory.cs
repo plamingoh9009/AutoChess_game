@@ -50,6 +50,7 @@ public class Inventory : MonoBehaviour
         // 풀에서 요청 -> 인벤에 삽입
         champ = ChampionPool.instance.GetChamp(champName);
         champ.champion.transform.parent = invenObj.transform;
+        champ.VisibleHpBar(true);
         champ.isClickOk = isClickOk;
         CollocateChamp(champ);
         inven.Add(champ);
@@ -299,8 +300,8 @@ public class Inventory : MonoBehaviour
     }
     #endregion
     #region Swap, Move
-    public void SwapChamp(TileHandler.TileInfo landingTile,
-        TileHandler.TileInfo standingTile)
+    public void SwapChamp(TileInfo landingTile,
+        TileInfo standingTile)
     {
         ChampInstance sour = FindChampFromTile(standingTile);
         ChampInstance dest = FindChampFromTile(landingTile);
@@ -308,13 +309,13 @@ public class Inventory : MonoBehaviour
         ChangeChampTransform(dest, standingTile);
     }
     public void MoveChamp(GameObject champion,
-        TileHandler.TileInfo landingTile)
+        TileInfo landingTile)
     {
         ChampInstance sour = FindChampFromInstance(champion);
         ChangeChampTransform(sour, landingTile);
     }
     void ChangeChampTransform(ChampInstance champ,
-        TileHandler.TileInfo landingTile)
+        TileInfo landingTile)
     {
         switch (landingTile.type)
         {
@@ -386,7 +387,7 @@ public class Inventory : MonoBehaviour
     }
     #endregion
     #region List in, out
-    bool ChangeInvenList(ChampionPool.ChampInstance champ)
+    bool ChangeInvenList(ChampInstance champ)
     {
         foreach (var ele in inven)
         {
@@ -400,7 +401,7 @@ public class Inventory : MonoBehaviour
         inven.Add(champ);
         return true;
     }
-    bool ChangeFieldList(ChampionPool.ChampInstance champ)
+    bool ChangeFieldList(ChampInstance champ)
     {
         foreach (var ele in field)
         {
