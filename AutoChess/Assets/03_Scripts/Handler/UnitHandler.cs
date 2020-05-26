@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class UnitHandler : MonoBehaviour
 {
-    TileHandler tileHandler;            // 타일 처리 클래스
-    GameObject unitObj;                 // 내 유닛 오브젝트
-    ChampionPool.ChampInstance unit;    // 내 유닛 인스턴스
-    TileHandler.TileInfo landingTile;   // 유닛이 착지할 타일
+    TileHandler tileHandler;                // 타일 처리 클래스
+    GameObject unitObj;                     // 내 유닛 오브젝트
+    public ChampionPool.ChampInstance unit; // 내 유닛 인스턴스
+    TileHandler.TileInfo landingTile;       // 유닛이 착지할 타일
     Inventory inven;
 
     GameObject tileFinderObj;           // 타일을 찾아주는 오브젝트

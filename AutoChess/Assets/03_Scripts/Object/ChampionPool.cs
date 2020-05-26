@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 
 public class ChampionPool : MonoBehaviour
@@ -36,28 +37,64 @@ public class ChampionPool : MonoBehaviour
         public ChampType champType;
         public AttackType attackType;
 
-        private GameObject hpBar;
-        private GameObject attackCollider;
+        private GameObject hpBarObj;
+        public Image hpBar;
+        private GameObject attackColliderObj;
+        private AttackCollider attackCollider;
         public bool isFightOk;
+        public bool isDeath;
         public void SetupDefault()
         {
             // Attack collider Range
-            attackCollider = champion.transform.Find("AttackCollider").gameObject;
-            attackCollider.transform.localScale = new Vector3(range, 0.1f, range);
+            attackColliderObj = champion.transform.Find("AttackCollider").gameObject;
+            attackColliderObj.transform.localScale = new Vector3(range, 0.1f, range);
+            attackCollider = attackColliderObj.GetComponent<AttackCollider>();
             ActiveAttackCollider(false);
             // Hp bar
-            hpBar = champion.transform.Find("character/HpBar").gameObject;
+            hpBarObj = champion.transform.Find("character/HpBar").gameObject;
+            hpBar = hpBarObj.transform.Find("ForeImg").GetComponent<Image>();
             VisibleHpBar(false);
             // bool
             isFightOk = false;
+            isDeath = false;
         }
         public void VisibleHpBar(bool isVisible)
         {
-            hpBar.SetActive(isVisible);
+            hpBarObj.SetActive(isVisible);
         }
         public void ActiveAttackCollider(bool isActive)
         {
-            attackCollider.SetActive(isActive);
+            attackColliderObj.SetActive(isActive);
+            if(isActive)
+            {
+                attackCollider.FightNow();
+            }
+            else
+            {
+                attackCollider.FightEnd();
+            }
+        }
+        public void Hit(float damage)
+        {
+            hp -= damage;
+            hpBar.fillAmount = hp / maxHp;
+
+            if(hp <= 0)
+            {
+                Death();
+            }
+        }
+        public void Death()
+        {
+            champion.SetActive(false);
+            isDeath = true;
+        }
+        public void Revival()
+        {
+            champion.SetActive(true);
+            hp = maxHp;
+            hpBar.fillAmount = hp / maxHp;
+            isDeath = false;
         }
     }
     public List<string> championNames { get; private set; }

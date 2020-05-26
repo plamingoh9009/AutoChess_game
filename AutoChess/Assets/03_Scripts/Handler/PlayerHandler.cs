@@ -44,6 +44,7 @@ public class PlayerHandler : MonoBehaviour
     void EndFight()
     {
         StartCoroutine(ActiveAttackColliders(false));
+        BackToField();  // 제자리로 되돌린다.
     }
 
     void Fight()
@@ -51,6 +52,15 @@ public class PlayerHandler : MonoBehaviour
         StartCoroutine(ActiveAttackColliders(true));
     }
     #region finished works
+    void BackToField()
+    {
+        foreach (var ele in players)
+        {
+            ele.champion.transform.position = ele.standingTile.tile.transform.position;
+            ele.champion.transform.rotation = ele.standingTile.tile.transform.rotation;
+            ele.Revival();
+        }
+    }
     IEnumerator ActiveAttackColliders(bool isActive)
     {
         int i;
@@ -58,35 +68,48 @@ public class PlayerHandler : MonoBehaviour
         {
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        if (i >= unitCount.maxUnit)
+        players = inven.field;
+        enemys = enemyInven.field;
+        foreach (var ele in players)
         {
-            players = inven.field;
-            enemys = enemyInven.field;
-            foreach (var ele in players)
-            {
-                ele.ActiveAttackCollider(isActive);
-                ele.isFightOk = isActive;
-            }
+            ele.ActiveAttackCollider(isActive);
+            ele.isFightOk = isActive;
         }
     }
     void ComputeHp()
     {
         // Hp를 계산해서 깎는 함수다.
+        int playersCount = 0;
+        int enemysCount = 0;
         players = inven.field;
         enemys = enemyInven.field;
 
         if (players != default && enemys != default)
         {
-            if (players.Count + enemys.Count > 0)
+            foreach(var ele in players)
             {
-                if (players.Count <= 0)
+                if(ele.hp > 0)
                 {
-                    LoseHp(enemys.Count);
+                    playersCount++;
+                }
+            }
+            foreach(var ele in enemys)
+            {
+                if(ele.hp > 0)
+                {
+                    enemysCount++;
+                }
+            }
+            if (playersCount + enemysCount > 0)
+            {
+                if (playersCount <= 0)
+                {
+                    LoseHp(enemysCount);
                 }
             }// if: 판에 체스말이 있지만, 내 말이 없는 경우 진다.
             else
             {
-                LoseHp(enemys.Count, true);
+                LoseHp(enemysCount, true);
             }// if: 판에 체스말이 없는 경우 비긴다.
         }
     }
