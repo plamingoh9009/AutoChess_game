@@ -49,7 +49,7 @@ public class EnemyHandler : MonoBehaviour
         inven.SetupComponents(goldUi, unitCount, tileHandler);
 
         // 적이 랜덤 롤을 받아서 인벤에 넣는다.
-        MoveRollToInven();
+        //MoveRollToInven();
     }
 
     public void GotoReadyTurn()
@@ -70,7 +70,7 @@ public class EnemyHandler : MonoBehaviour
         StartCoroutine(inven.AutoReturnChamp(true));
 
         // 낸 다음에 돈이 남으면 레벨 올린다.
-        if(goldUi.gold >= 4)
+        if (goldUi.gold >= 4)
         {
             LevelUp();
         }
@@ -80,6 +80,7 @@ public class EnemyHandler : MonoBehaviour
     void EndFight()
     {
         StartCoroutine(ActiveAttackColliders(false));
+        BackToField();
     }
 
     void Fight()
@@ -88,6 +89,16 @@ public class EnemyHandler : MonoBehaviour
     }
 
     #region finished works
+    void BackToField()
+    {
+        foreach (var ele in enemys)
+        {
+            ele.champion.transform.position = ele.standingTile.tile.transform.position;
+            ele.champion.transform.rotation = ele.standingTile.tile.transform.rotation *
+                Quaternion.Euler(new Vector3(0, 180, 0));
+            ele.Revival();
+        }
+    }
     IEnumerator ActiveAttackColliders(bool isActive)
     {
         int i;
@@ -95,35 +106,49 @@ public class EnemyHandler : MonoBehaviour
         {
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        if (i >= unitCount.maxUnit)
+        enemys = inven.field;
+        players = playerInven.field;
+        foreach (var ele in enemys)
         {
-            enemys = inven.field;
-            players = playerInven.field;
-            foreach (var ele in enemys)
-            {
-                ele.ActiveAttackCollider(isActive);
-                ele.isFightOk = isActive;
-            }
+            ele.ActiveAttackCollider(isActive);
+            ele.isFightOk = isActive;
         }
     }
     void ComputeHp()
     {
         // Hp를 계산해서 깎는 함수다.
+        int playersCount = 0;
+        int enemysCount = 0;
         enemys = inven.field;
         players = playerInven.field;
 
         if (players != default && enemys != default)
         {
-            if (players.Count + enemys.Count > 0)
+            foreach (var ele in players)
             {
-                if (enemys.Count <= 0)
+                if (ele.hp > 0)
                 {
-                    LoseHp(players.Count);
+                    playersCount++;
+                }
+            }
+            foreach (var ele in enemys)
+            {
+                if (ele.hp > 0)
+                {
+                    enemysCount++;
+                }
+            }
+
+            if (playersCount + enemysCount > 0)
+            {
+                if (enemysCount <= 0)
+                {
+                    LoseHp(playersCount);
                 }
             }// if: 판에 체스말이 있지만, 내 말이 없는 경우 진다.
             else
             {
-                LoseHp(players.Count, true);
+                LoseHp(playersCount, true);
             }// if: 판에 체스말이 없는 경우 비긴다.
         }
     }
@@ -149,10 +174,14 @@ public class EnemyHandler : MonoBehaviour
     }
     void MoveRollToInven(ChampInstances currentRoll)
     {
-        foreach (var ele in currentRoll)
+        for(int i=0; i<3; i++)
         {
-            ele.champion.SetActive(true);
-            inven.IntoInventory(ele.name);
+            if(goldUi.gold >= 2)
+            {
+                currentRoll[i].champion.SetActive(true);
+                inven.IntoInventory(currentRoll[i].name);
+                goldUi.AddGold(-2);
+            }
         }
     }
     #endregion

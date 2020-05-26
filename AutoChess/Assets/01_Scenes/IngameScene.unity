@@ -5706,7 +5706,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b346d2265e7fbc643a1e8ce73d238e8f, type: 3}
-    m_FontSize: 24
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -5717,7 +5717,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBA67\uB3FC\uC9C0"
+  m_Text: VS Computer
 --- !u!222 &1532188392
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8106,7 +8106,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB77C\uC6B4\uB4DC 1"
+  m_Text: "\uB77C\uC6B4\uB4DC "
 --- !u!222 &2085034478
 CanvasRenderer:
   m_ObjectHideFlags: 0

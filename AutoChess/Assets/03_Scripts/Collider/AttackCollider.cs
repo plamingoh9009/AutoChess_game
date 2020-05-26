@@ -16,9 +16,13 @@ public class AttackCollider : MonoBehaviour
     ChampInstance target;
     ChampInstances enemyList;
 
-    GameObject unit;
-    Animation myAnimation;
+    GameObject unitObj;
+    ChampInstance unit;
+    Animator myAni;
     MySide mySide;
+    bool isEnemyInRange;
+    float moveSpeed;
+    float attackSpeed;
     // 켜지는 순간 target을 정하고 걸어간다.
     private void Awake()
     {
@@ -27,49 +31,160 @@ public class AttackCollider : MonoBehaviour
             transform.Find("Inventory").GetComponent<Inventory>();
         target = default;
         enemyList = default;
-        myAnimation = transform.parent.Find("character").GetComponent<Animation>();
+        unitObj = transform.parent.gameObject;
+        unit = default;
+        myAni = transform.parent.Find("character").GetComponent<Animator>();
+        isEnemyInRange = false;
+        moveSpeed = 1.0f;
+        attackSpeed = 250f;
     }
-    private void Start()
+
+    public void FightNow()
     {
-        // 내가 누구 편인지 정한다. -> 적을 리스트에 담는다.
-        SetupMySide();
-        SetupTarget();
+        SetupMySide();                  // 내가 누구 편인지 정한다.
+        SetupTarget();                  // 리스트에서 적을 하나 특정한다.
+        StartCoroutine(AttackEnemy());
     }
+    public void FightEnd()
+    {
+        isEnemyInRange = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Unit"))
+        {
+            foreach (var ele in enemyList)
+            {
+                if (other.transform.parent.parent.gameObject == ele.champion)
+                {
+                    isEnemyInRange = true;
+                    switch (mySide)
+                    {
+                        case MySide.COMPUTER:
+                            target = playerInven.FindChampFromInstance(
+                                other.transform.parent.parent.gameObject);
+                            break;
+                        case MySide.PLAYER:
+                            target = computerInven.FindChampFromInstance(
+                                other.transform.parent.parent.gameObject);
+                            break;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    #region finished works
+
+    #region Auto attack
+    IEnumerator AttackEnemy()
+    {
+        while (target != default)
+        {
+            yield return new WaitForSeconds(1.0f);
+            if (target != default)
+            {
+                // 적을 향해 걸어가서 -> 때린다.
+                StartCoroutine(WalkToTarget());
+            }
+        }
+    }
+    IEnumerator AttackTarget()
+    {
+        while ((target != default && target.hp > 0) &&
+            (unit != default && unit.hp > 0))
+        {
+            unitObj.transform.LookAt(target.champion.transform);
+            myAni.SetTrigger("Attack");
+            yield return new WaitForSeconds(attackSpeed * Time.deltaTime);
+            try
+            {
+                target.Hit(unit.damage);
+            }
+            catch (System.NullReferenceException e)
+            {
+                break;
+            }
+        }
+        // 피가 다 닳면 죽는다.
+        if (target != default && target.hp <= 0)
+        {
+            SetupTarget();
+        }// if: 적이 죽음
+        else
+        {
+            target = default;
+        }// if: 내가 죽음
+    }
+    IEnumerator WalkToTarget()
+    {
+        Vector3 moveDirection = default;
+        while (isEnemyInRange == false)
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+            unitObj.transform.LookAt(target.champion.transform);
+            moveDirection = Vector3.forward * moveSpeed * Time.deltaTime;
+            unitObj.transform.Translate(moveDirection);
+            myAni.SetFloat("MoveSpeed", Mathf.Abs(moveSpeed * Time.deltaTime));
+        }
+        myAni.SetFloat("MoveSpeed", 0);
+        StartCoroutine(AttackTarget());
+    }
+    #endregion
 
     void SetupTarget()
     {
-        if(enemyList != default && enemyList.Count > 0)
+        if (enemyList != default && enemyList.Count > 0)
         {
-            foreach(var ele in enemyList)
+            foreach (var ele in enemyList)
             {
-                if(ele.hp > 0)
+                if (ele.hp > 0)
                 {
                     target = ele;
                     break;
                 }
             }
-            //transform.LookAt(target.champion.transform.)
+        }
+        else
+        {
+            target = default;
+        }
+
+        if (target.hp <= 0)
+        {
+            target = default;
         }
     }
     void SetupMySide()
     {
-        foreach(var ele in playerInven.field)
+        foreach (var ele in playerInven.field)
         {
-            if(transform.parent.gameObject == ele.champion)
+            if (transform.parent.gameObject == ele.champion)
             {
                 mySide = MySide.PLAYER;
                 enemyList = computerInven.field;
+                unit = playerInven.FindChampFromInstance(unitObj);
+                unit.VisibleHpBar(true);
+                unit.hpBar.color = Color.green;
+                unit.hpBar.fillAmount = 1.0f;
                 break;
             }
         }
-        foreach(var ele in computerInven.field)
+        foreach (var ele in computerInven.field)
         {
-            if(transform.parent.gameObject == ele.champion)
+            if (transform.parent.gameObject == ele.champion)
             {
                 mySide = MySide.COMPUTER;
                 enemyList = playerInven.field;
+                unit = computerInven.FindChampFromInstance(unitObj);
+                unit.VisibleHpBar(true);
+                unit.hpBar.color = Color.red;
+                unit.hpBar.fillAmount = 1.0f;
                 break;
             }
         }
     }
+    #endregion
 }

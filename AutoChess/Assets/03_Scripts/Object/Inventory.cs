@@ -50,7 +50,6 @@ public class Inventory : MonoBehaviour
         // 풀에서 요청 -> 인벤에 삽입
         champ = ChampionPool.instance.GetChamp(champName);
         champ.champion.transform.parent = invenObj.transform;
-        champ.VisibleHpBar(true);
         champ.isClickOk = isClickOk;
         CollocateChamp(champ);
         inven.Add(champ);
@@ -120,7 +119,7 @@ public class Inventory : MonoBehaviour
                         }
                         count++;
                     }
-                }
+                }// if: 필드에 있는 유닛을 우선 타겟팅한다.
             }
             QualityUp(target);
         }
@@ -199,6 +198,9 @@ public class Inventory : MonoBehaviour
 
         if (target == default) { return false; }
         // 능력치가 좋아짐
+        target.maxHp *= 2;
+        target.hp = target.maxHp;
+        target.damage *= 2;
         // 크기가 커짐
         float multiple = 1.5f;   // 얼마나 커지는지
         Vector3 scale = default;
@@ -223,10 +225,11 @@ public class Inventory : MonoBehaviour
     {
         int loopCnt = 0;
         ChampInstance throwChamp = default;
-        TileHandler.TileInfo emptyField = new TileHandler.TileInfo();
-        if (unitCount.currentField < unitCount.maxUnit)
+        TileInfo emptyField = new TileInfo();
+
+        if (field.Count < unitCount.maxUnit)
         {
-            loopCnt = unitCount.maxUnit - unitCount.currentField;
+            loopCnt = unitCount.maxUnit - field.Count;
             for (int i = 0; i < loopCnt; i++)
             {
                 throwChamp = default;
@@ -262,6 +265,7 @@ public class Inventory : MonoBehaviour
         int loopCnt = 0;
         ChampInstance returnChamp = new ChampInstance();
         TileInfo emptyInven = new TileInfo();
+
         if (unitCount.currentField > unitCount.maxUnit)
         {
             loopCnt = unitCount.currentField - unitCount.maxUnit;
@@ -490,9 +494,18 @@ public class Inventory : MonoBehaviour
         }
     }
     #endregion
-    /// <summary>
-    /// 인벤토리에 자리가 남는지 확인하는 함수
-    /// </summary>
+    public int HowManyAliveField()
+    {
+        int count = 0;
+        foreach(var ele in field)
+        {
+            if(ele.hp > 0)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
     public bool IsRemainInven()
     {
         if (inven.Count < maxSize)

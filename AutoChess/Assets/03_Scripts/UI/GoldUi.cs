@@ -13,7 +13,7 @@ public class GoldUi : MonoBehaviour
     private void Awake()
     {
         gold = 4;
-        interest = 15;
+        interest = 5;
         goldStatue = default;
         currentGold = default;
     }

@@ -6,6 +6,7 @@ public class TimerHandler : MonoBehaviour
 {
     #region Start()
     int _timer;
+    int turnSkip;
     UnityEngine.UI.Text _uiText;
     RollChampions _containerHandler;
 
@@ -13,6 +14,7 @@ public class TimerHandler : MonoBehaviour
     UpgradeBtn upgradeBtn;
 
     Inventory playerInven;
+    Inventory enemyInven;
     GoldUi playerGoldInfo;
     EnemyHandler enemyHandler;
     PlayerHandler playerHandler;
@@ -20,6 +22,7 @@ public class TimerHandler : MonoBehaviour
     private void Awake()
     {
         _timer = 30;
+        turnSkip = -1;
         _uiText = GameObject.Find("Count").GetComponent<UnityEngine.UI.Text>();
         playBtn = MyFunc.GetObject(MyFunc.ObjType.PLAY_BUTTON).GetComponent<PlayButton>();
         upgradeBtn = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).
@@ -28,6 +31,8 @@ public class TimerHandler : MonoBehaviour
         playerInven = MyFunc.GetObject(MyFunc.ObjType.INVENTORY).GetComponent<Inventory>();
         playerGoldInfo = MyFunc.GetObject(MyFunc.ObjType.PLAYER_UI).GetComponent<GoldUi>();
 
+        enemyInven = MyFunc.GetObject(MyFunc.ObjType.ENEMY).transform.Find("Inventory").
+            GetComponent<Inventory>();
         enemyHandler = MyFunc.GetObject(MyFunc.ObjType.ENEMY).GetComponent<EnemyHandler>();
         playerHandler = MyFunc.GetObject(MyFunc.ObjType.PLAYER).GetComponent<PlayerHandler>();
     }
@@ -44,10 +49,31 @@ public class TimerHandler : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
             _timer--;
-            if (_timer <= 0)
+            if(turnSkip == -1)
             {
-                ChangeGameTurnType();
-            }// if: 이전 턴이 끝났다면 다음 턴을 시작한다
+                if (_timer <= 0)
+                {
+                    ChangeGameTurnType();
+                    turnSkip = -1;
+                }// if: 이전 턴이 끝났다면 다음 턴을 시작한다
+
+                if (GameManager.instance.myTurn == GameManager.TurnType.FIGHT)
+                {
+                    if (playerInven.HowManyAliveField() == 0 ||
+                        enemyInven.HowManyAliveField() == 0)
+                    {
+                        turnSkip = _timer - 5;
+                    }
+                }
+            }
+            else
+            {
+                if (_timer <= turnSkip || _timer <= 0)
+                {
+                    ChangeGameTurnType();
+                    turnSkip = -1;
+                }// if: 이전 턴이 끝났다면 다음 턴을 시작한다
+            }
             // 마지막으로 숫자를 렌더한다.
             _uiText.text = _timer.ToString();
 
