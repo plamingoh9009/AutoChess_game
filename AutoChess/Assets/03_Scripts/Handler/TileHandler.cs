@@ -16,6 +16,7 @@ public class TileHandler : MonoBehaviour
     GameObject _hexaTileContainer;
     GameObject tileExplorerObj;
     TileFinder tileExplorer;
+    public List<GameObject> tilePrefabs = new List<GameObject>();
     public List<TileInfo> squareInstances { get; private set; }
     public List<TileInfo> hexaInstances { get; private set; }
     public class TileInfo
@@ -59,26 +60,25 @@ public class TileHandler : MonoBehaviour
     #endregion
     List<TileInfo> MakeTiles(TileType type, float distance, int rows, int cols = 1, bool isReverse = false)
     {
-        string path = MyFunc.GetPath(MyFunc.PathType.PREFABS);
-        string objName = "";
         GameObject prefab = default;
         GameObject parrent = default;
         List<TileInfo> instanceList = default;
 
+        int tileIdx = -1;
         switch (type)
         {
             case TileType.SQUARE:
-                objName = "indicator square.prefab";
+                tileIdx = 0;
                 parrent = _squareTileContainer;
                 break;
             case TileType.HEXAGON:
-                objName = "indicator hexa.prefab";
+                tileIdx = 1;
                 parrent = _hexaTileContainer;
                 break;
             default:
                 break;
         }
-        prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path + objName);
+        prefab = tilePrefabs[tileIdx];
         instanceList = new List<TileInfo>();
         float rowPos, colPos;
         for (int i = 0; i < cols; i++)

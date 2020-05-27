@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 public class ChampionPool : MonoBehaviour
 {
@@ -98,10 +97,10 @@ public class ChampionPool : MonoBehaviour
         }
     }
     public List<string> championNames { get; private set; }
+    public List<GameObject> champPrefabs = new List<GameObject>();
     public Dictionary<string, GameObject> championPrefabs { get; private set; }
 
     List<ChampInstance> championPool;      // 오브젝트 풀
-    string prefabPath;                     // 챔피언 프리팹 경로
     int addObjectCnt;                      // 풀에 오브젝트를 얼마나 추가할 지
     int maxPoolCnt;                        // 오브젝트풀의 최대 크기
 
@@ -132,8 +131,6 @@ public class ChampionPool : MonoBehaviour
     #region Add Prefabs()
     void SetupPrefabs()
     {
-        prefabPath = "Assets/04_Prefabs/Champions/";
-
         championNames = new List<string>();
         championNames.Add("Fire Archer");
         championNames.Add("Fire Knight");
@@ -146,12 +143,10 @@ public class ChampionPool : MonoBehaviour
         championNames.Add("Nature Wizzard");
 
         championPrefabs = new Dictionary<string, GameObject>();
-        string fullPrefabPath;
         GameObject myPrefab;
         for (int i = 0; i < championNames.Count; i++)
         {
-            fullPrefabPath = prefabPath + championNames[i] + ".prefab";
-            myPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(fullPrefabPath);
+            myPrefab = champPrefabs[i];
 
             championPrefabs.Add(championNames[i], myPrefab);
 
