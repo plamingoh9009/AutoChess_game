@@ -197,15 +197,17 @@ public class Inventory : MonoBehaviour
         GameObject tileFinder = default;
 
         if (target == default) { return false; }
-        // 능력치가 좋아짐
-        target.maxHp *= 2;
-        target.hp = target.maxHp;
-        target.damage *= 2;
-        // 크기가 커짐
-        float multiple = 1.5f;   // 얼마나 커지는지
-        Vector3 scale = default;
+        
         if (target.quality < 3)
         {
+            // 능력치가 좋아짐
+            target.maxHp *= 2;
+            target.hp = target.maxHp;
+            target.damage *= 2;
+            // 크기가 커짐
+            float multiple = 1.5f;   // 얼마나 커지는지
+            Vector3 scale = default;
+
             character = target.champion.transform.Find("character").gameObject;
             tileFinder = target.champion.transform.Find("TileFinder").gameObject;
             scale = character.transform.localScale;
@@ -215,9 +217,18 @@ public class Inventory : MonoBehaviour
                 scale.z * Mathf.Pow(multiple, target.quality));
             character.transform.localScale = scale;
             target.quality++;
+
+            // 파티클 재생
+            StartCoroutine(LevelUpPlay(target));
             return true;
         }
         return false;
+    }
+    IEnumerator LevelUpPlay(ChampInstance target)
+    {
+        target.levelUp.Play();
+        yield return new WaitForSeconds(1.0f);
+        target.levelUp.Stop();
     }
     #endregion
     #region Auto function()
