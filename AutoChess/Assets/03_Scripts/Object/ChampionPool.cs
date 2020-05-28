@@ -44,6 +44,7 @@ public class ChampionPool : MonoBehaviour
         public bool isDeath;
 
         public ParticleSystem wizzardEffect;
+        public ParticleSystem levelUp;
         public void SetupDefault()
         {
             // Attack collider Range
@@ -61,6 +62,7 @@ public class ChampionPool : MonoBehaviour
 
             // particle
             wizzardEffect = champion.transform.GetComponentInChildren<ParticleSystem>();
+            levelUp = champion.transform.Find("character/Levelup Effect").GetComponent<ParticleSystem>();
         }
         public void VisibleHpBar(bool isVisible)
         {
