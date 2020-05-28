@@ -176,7 +176,8 @@ public class EnemyHandler : MonoBehaviour
     {
         for(int i=0; i<3; i++)
         {
-            if(goldUi.gold >= 2)
+            if(inven.IsRemainInven() && goldUi.gold >= 2 && 
+                ((unitCount.currentField + inven.inven.Count) < unitCount.maxUnit))
             {
                 currentRoll[i].champion.SetActive(true);
                 inven.IntoInventory(currentRoll[i].name);
