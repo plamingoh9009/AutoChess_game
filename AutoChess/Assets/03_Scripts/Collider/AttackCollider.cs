@@ -36,7 +36,7 @@ public class AttackCollider : MonoBehaviour
         myAni = transform.parent.Find("character").GetComponent<Animator>();
         isEnemyInRange = false;
         moveSpeed = 1.0f;
-        attackSpeed = 250f;
+        attackSpeed = 1.0f;
     }
 
     public void FightNow()
@@ -83,7 +83,7 @@ public class AttackCollider : MonoBehaviour
     {
         while (target != default)
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(attackSpeed);
             if (target != default)
             {
                 // 적을 향해 걸어가서 -> 때린다.
@@ -98,10 +98,16 @@ public class AttackCollider : MonoBehaviour
         {
             unitObj.transform.LookAt(target.champion.transform);
             myAni.SetTrigger("Attack");
-            yield return new WaitForSeconds(attackSpeed * Time.deltaTime);
+            if (unit.champType == ChampionPool.ChampType.WIZZARD)
+            {
+                unit.wizzardEffect.Play();
+                StartCoroutine(StopWizzardEffect());
+            }
+            yield return new WaitForSeconds(1.0f);
             try
             {
                 target.Hit(unit.damage);
+
             }
             catch (System.NullReferenceException e)
             {
@@ -117,6 +123,11 @@ public class AttackCollider : MonoBehaviour
         {
             target = default;
         }// if: 내가 죽음
+    }
+    IEnumerator StopWizzardEffect()
+    {
+        yield return new WaitForSeconds(1.0f);
+        unit.wizzardEffect.Stop();
     }
     IEnumerator WalkToTarget()
     {

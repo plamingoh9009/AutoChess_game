@@ -37,8 +37,11 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnimatorStateTransitionInspector
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -183,6 +186,10 @@ ScriptsOnlyBuild:
     - Class: 183
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 198
+      Script: {instanceID: 0}
+    - Class: 199
       Script: {instanceID: 0}
     - Class: 213
       Script: {instanceID: 0}
@@ -1110,4 +1117,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/01_Scenes/IngameScene.unity
-  playerPath: E:/Csharp_works/Cs_Project/AutoChess/Build/AutoChess.exe
+  playerPath: "C:/Users/daeyo/Desktop/\uBB38\uC11C\uC791\uC5C5/\uC624\uD1A0\uCCB4\uC2A4/Build/AutoChess.exe"

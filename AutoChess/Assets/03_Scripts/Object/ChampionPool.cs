@@ -42,6 +42,8 @@ public class ChampionPool : MonoBehaviour
         private AttackCollider attackCollider;
         public bool isFightOk;
         public bool isDeath;
+
+        public ParticleSystem wizzardEffect;
         public void SetupDefault()
         {
             // Attack collider Range
@@ -50,12 +52,15 @@ public class ChampionPool : MonoBehaviour
             attackCollider = attackColliderObj.GetComponent<AttackCollider>();
             ActiveAttackCollider(false);
             // Hp bar
-            hpBarObj = champion.transform.Find("character/HpBar").gameObject;
+            hpBarObj = champion.transform.Find("HpBar").gameObject;
             hpBar = hpBarObj.transform.Find("ForeImg").GetComponent<Image>();
             VisibleHpBar(false);
             // bool
             isFightOk = false;
             isDeath = false;
+
+            // particle
+            wizzardEffect = champion.transform.GetComponentInChildren<ParticleSystem>();
         }
         public void VisibleHpBar(bool isVisible)
         {
