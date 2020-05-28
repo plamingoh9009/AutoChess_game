@@ -1,5 +1,3 @@
-sceneSetups:
-- path: Assets/01_Scenes/IngameScene.unity
-  isLoaded: 1
-  isActive: 1
-  isSubScene: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:ec8a003ced11dcf6a4c6cece6705d205ed1da9ce9f01d5db4d7d16cf79e1334a
+size 100
