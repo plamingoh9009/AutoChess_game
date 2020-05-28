@@ -53,7 +53,7 @@ public class ChampionPool : MonoBehaviour
             attackCollider = attackColliderObj.GetComponent<AttackCollider>();
             ActiveAttackCollider(false);
             // Hp bar
-            hpBarObj = champion.transform.Find("HpBar").gameObject;
+            hpBarObj = champion.transform.Find("character/HpBar").gameObject;
             hpBar = hpBarObj.transform.Find("ForeImg").GetComponent<Image>();
             VisibleHpBar(false);
             // bool
